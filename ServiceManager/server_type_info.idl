@@ -1,0 +1,108 @@
+import "oaidl.idl";
+import "ocidl.idl";
+
+
+//<Guid("6BDAB14C-5569-4C1A-96AD-54C6B48B3764")>
+[uuid(6BDAB14C-5569-4C1A-96AD-54C6B48B3764), version(1.0),
+helpstring("server with typeLib")]
+library ServiceLib
+{
+    //<Guid("D7695D47-090D-4F50-A202-8665C06EEC49")>
+    [uuid(D7695D47-090D-4F50-A202-8665C06EEC49)]
+    struct SERVICE_STATUS_PROCESS_UDT
+    {
+        DWORD   dwServiceType;
+        DWORD   dwCurrentState;
+        DWORD   dwControlsAccepted;
+        DWORD   dwWin32ExitCode;
+        DWORD   dwServiceSpecificExitCode;
+        DWORD   dwCheckPoint;
+        DWORD   dwWaitHint;
+    };
+
+
+    //<Guid("B2A07117-3FA6-479A-9A7B-A6414DC4C8F7")>
+    [uuid(B2A07117-3FA6-479A-9A7B-A6414DC4C8F7)]
+    struct ENUM_SERVICE_STATUS_PROCESS_UDT
+    {
+        BSTR          lpServiceName;
+        BSTR          lpDisplayName;
+        struct SERVICE_STATUS_PROCESS_UDT ServiceStatus;
+    };
+
+
+    //<Guid("B2A07117-3FA6-479A-9A7B-A6414DC4C8F7")>
+    [uuid(B2A07117-3FA6-479A-9A7B-A6414DC4C2FA)]
+    struct QUERY_SERVICE_CONFIG_UDT
+    {
+        DWORD dwServiceType;
+        DWORD dwStartType;
+        DWORD dwErrorControl;
+        BSTR lpBinaryPathName;
+        BSTR lpLoadOrderGroup;
+        BSTR lpDependencies;
+        DWORD dwTagId;
+        BSTR lpServiceStartName;
+        BSTR lpDisplayName;
+    };
+
+    struct SC_ACTION_UDT {
+        DWORD Type;
+        DWORD Delay;
+    };
+
+    struct SERVICE_FAILURE_ACTIONS_UDT {
+        DWORD     dwResetPeriod;
+        BSTR     lpRebootMsg;
+        BSTR     lpCommand;
+        DWORD     cActions;
+        struct SC_ACTION_UDT lpsaAction1;
+        struct SC_ACTION_UDT lpsaAction2;
+        struct SC_ACTION_UDT lpsaAction3;
+
+    };
+
+
+
+    //<Guid("993CD48A-7763-4C8E-A919-BCB81CDFCAD4")>
+    [object, uuid(993CD48A-7763-4C8E-A919-BCB81CDFCAD4),
+        oleautomation, helpstring("Enumerate services to show simple info")]
+    interface IManager : IUnknown
+    {
+        HRESULT getServices([out] int* servicesCount, [out] SAFEARRAY(BSTR)* psaServiceName, [out] SAFEARRAY(struct SERVICE_STATUS_PROCESS_UDT) * psaServiceStatus);
+        
+        HRESULT queryServiceInfo([in] BSTR serviceName, [out] struct SERVICE_STATUS_PROCESS_UDT* psaServiceInfo);
+
+        HRESULT queryServiceConfigSM([in] BSTR serviceName, [out] struct QUERY_SERVICE_CONFIG_UDT* serviceConfig);
+        
+        HRESULT queryServiceFailureActionsSM([in] BSTR serviceName, [in, out] struct SERVICE_FAILURE_ACTIONS_UDT* serviceConfig);
+
+        HRESULT changeServiceFailureActionsSM([in] BSTR serviceName, [in, out] struct SERVICE_FAILURE_ACTIONS_UDT* serviceConfig);
+
+
+        HRESULT changeServiceConfigSM([in] BSTR serviceName, [in, out] struct QUERY_SERVICE_CONFIG_UDT* serviceConfig);
+
+        HRESULT stopService([in] BSTR serviceName);
+        HRESULT startService([in] BSTR serviceName);
+
+
+    };
+
+    //<Guid("52DA7150-1BC7-4DA1-AD03-CB1147DF9FD9")>
+    [object, uuid(52DA7150-1BC7-4DA1-AD03-CB1147DF9FD9),
+    oleautomation, helpstring("This lets you create a car object")]
+    interface ICreateManager : IUnknown
+    {
+    };
+
+    importlib("stdole32.tlb");
+
+    
+    [uuid(53BA7C94-C5BC-42D8-933A-BB08F220846E)]
+    coclass ServiceManager
+    {
+        [default] interface ICreateManager;
+        interface IManager;
+    };
+};
+
