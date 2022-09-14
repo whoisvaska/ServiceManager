@@ -3,7 +3,11 @@
 RecoverySettingsTab::RecoverySettingsTab(QWidget* parent)
     : QWidget(parent)
 {
+
+    QMessageBox::information(this, "", "RecoverySettingsTab");
+
     this->serviceSettingsTab = parent;
+
 
     this->failure1actionBox = new QComboBox();
     this->failure2actionBox = new QComboBox();
@@ -38,21 +42,44 @@ RecoverySettingsTab::RecoverySettingsTab(QWidget* parent)
     runProgramLineEdit = new QLineEdit;
     connect(runProgramLineEdit, &QLineEdit::textChanged, this, &RecoverySettingsTab::changeRunProgram);
 
-    QVBoxLayout* mainLayout = new QVBoxLayout;
+    QGridLayout* layout = new QGridLayout();
     
+    QLabel* failure1label = new QLabel("First failrure:");
+    QLabel* failure2label = new QLabel("Second failrure:");
+    QLabel* failure3label = new QLabel("Subsequent failures:");
+
+    layout->addWidget(failure1label, 0, 0);
+    layout->addWidget(failure2label, 1, 0);
+    layout->addWidget(failure3label, 2, 0);
+
+    layout->addWidget(failure1actionBox, 0, 1);
+    layout->addWidget(failure2actionBox, 1, 1);
+    layout->addWidget(failure3actionBox, 2, 1);
+
+    QLabel* resetPerionLabel = new QLabel("Reset fail count after (seconds):");
+    QLabel* runProgramLabel = new QLabel("Run program:");
+
+    layout->addWidget(resetPerionLabel, 3, 0);
+    layout->addWidget(runProgramLabel, 4, 0);
+
+    layout->addWidget(resetPeriodLineEdit, 3, 1);
+    layout->addWidget(runProgramLineEdit, 4, 1);
+
+
+  /*  QVBoxLayout* mainLayout = new QVBoxLayout;
+
     mainLayout->addWidget(failure1actionBox);
     mainLayout->addWidget(failure2actionBox);
     mainLayout->addWidget(failure3actionBox);
-
     mainLayout->addWidget(resetPeriodLineEdit);
-
     mainLayout->addWidget(runProgramLineEdit);
 
 
     mainLayout->addStretch(1);
-    setLayout(mainLayout);
+    setLayout(mainLayout);*/
+    setLayout(layout);
     setWindowTitle(tr("Tab Dialog"));
-    this->setFixedSize(640, 480);
+    //this->setFixedSize(640, 480);
     
     this->updateInfo();
 }

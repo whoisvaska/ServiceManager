@@ -4,6 +4,8 @@
 GeneralSettingsTab::GeneralSettingsTab(QWidget* parent)
     : QWidget(parent)
 {
+    QMessageBox::information(this, "", "GeneralSettingsTab");
+
     this->serviceSettingsTab = parent;
 
     this->startTypeBox = new QComboBox();
@@ -24,17 +26,56 @@ GeneralSettingsTab::GeneralSettingsTab(QWidget* parent)
     this->stopBtn->setText("Stop");
     connect(this->stopBtn, SIGNAL(clicked()), this, SLOT(stopService()));
 
-    QVBoxLayout * mainLayout = new QVBoxLayout;
-    mainLayout->addWidget(startTypeBox);
-    mainLayout->addWidget(startBtn);
-    mainLayout->addWidget(stopBtn);
+    QGridLayout* layout = new QGridLayout();
 
+    QLabel* serviceNameLabel = new QLabel("Service name:");
+    QLabel* displayNameLabel = new QLabel("Display name:");
 
-    mainLayout->addStretch(1);
-    setLayout(mainLayout);
+    QLabel* descriptionLabel = new QLabel("Description:");
+
+    QLabel* startTypeLabel = new QLabel("Startup type:");
+    QLabel* currentStateLabel = new QLabel("Service status:");
+
+    serviceName = new QLabel();
+    displayName = new QLabel();
+    description = new QLabel();
+    startType = new QLabel();
+    currentState = new QLabel();
+
+    description->setWordWrap(true);
+
+    layout->addWidget(serviceNameLabel, 0, 0);
+    layout->addWidget(serviceName, 0, 1);
+
+    layout->addWidget(displayNameLabel, 1, 0);
+    layout->addWidget(displayName, 1, 1);
+
+    layout->addWidget(descriptionLabel, 2, 0);
+    layout->addWidget(description, 2, 1);
+
+    layout->addWidget(startTypeLabel, 3, 0);
+    layout->addWidget(startTypeBox, 3, 1);
+
+    layout->addWidget(currentStateLabel, 4, 0);
+    layout->addWidget(currentState, 4, 1);
+    
+    setLayout(layout);
+    
     setWindowTitle(tr("Tab Dialog"));
-    this->setFixedSize(640, 480);
     this->updateInfo();
+}
+
+
+GeneralSettingsTab::~GeneralSettingsTab() {
+
+    delete startTypeBox;
+    delete startBtn;
+    delete stopBtn;
+    delete serviceName;
+    delete displayName; 
+    delete description; 
+    delete startType;
+    delete currentState;
 }
 
 
@@ -65,8 +106,13 @@ void GeneralSettingsTab::updateInfo() {
     }
 
     if (qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceStatus.dwCurrentState == SERVICE_STOPPED) {
-        this->stopBtn->setDisabled(true); 
+        this->stopBtn->setDisabled(true);
     }
 
     this->startTypeBox->setCurrentIndex(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceConfig.dwStartType);
+
+    this->serviceName->setText(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceName);
+    this->displayName->setText(QString::fromWCharArray(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceConfig.lpDisplayName));
+    this->description->setText(QString::fromWCharArray(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceDescription.lpDescription));
+    this->currentState->setText(currentStateToString(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceStatus.dwCurrentState));
 }

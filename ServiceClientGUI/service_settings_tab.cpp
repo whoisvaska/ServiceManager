@@ -3,7 +3,8 @@
 ServiceSettingsTab::ServiceSettingsTab(QString serviceName_, IManager* pIManager_, QWidget* parent)
     : QDialog(parent)
 {
-    //GeneralSettingsTab*
+    QMessageBox::information(this, "", "ServiceSettingsTab");
+
     this->pIManager = pIManager_;
     this->serviceName = serviceName_;
     this->updateServiceInfo();
@@ -90,9 +91,9 @@ void ServiceSettingsTab::updateServiceInfo() {
 
     this->pIManager->queryServiceConfigSM(szServiceName, &this->serviceConfig);
 
-    //this->serviceFailureActions_ = (SERVICE_FAILURE_ACTIONSW*)LocalAlloc(LMEM_FIXED, sizeof(SERVICE_FAILURE_ACTIONSW));
-
     this->pIManager->queryServiceFailureActionsSM(szServiceName, &this->serviceFailureActions);
+
+    this->pIManager->queryServiceDescriptionSM(szServiceName, &this->serviceDescription);
 
     return;
 }

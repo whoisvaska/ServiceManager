@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-cb41ce949bf1f801465a.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.5"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "ServiceManagerQT",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ServiceManagerQT::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ServiceManagerQT-Debug-5e414d4f8723bc3f85ef.json",
+					"name" : "ServiceManagerQT",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ServiceManagerQT_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ServiceManagerQT_autogen-Debug-cfe12d80a5f87fbf9d73.json",
+					"name" : "ServiceManagerQT_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ServiceManagerQT_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ServiceManagerQT_autogen_timestamp_deps-Debug-484cec2507627aad79be.json",
+					"name" : "ServiceManagerQT_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "D:/Projects/com-service/src/Service/build-ServiceManagerQT-Desktop_Qt_5_15_2_MSVC2019_32bit-Debug",
+		"source" : "D:/Projects/com-service/src/Service/ServiceManagerQT"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 4
+	}
+}

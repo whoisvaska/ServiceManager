@@ -25,9 +25,9 @@ library ServiceLib
     [uuid(B2A07117-3FA6-479A-9A7B-A6414DC4C8F7)]
     struct ENUM_SERVICE_STATUS_PROCESS_UDT
     {
+        struct SERVICE_STATUS_PROCESS_UDT ServiceStatus;
         BSTR          lpServiceName;
         BSTR          lpDisplayName;
-        struct SERVICE_STATUS_PROCESS_UDT ServiceStatus;
     };
 
 
@@ -38,10 +38,10 @@ library ServiceLib
         DWORD dwServiceType;
         DWORD dwStartType;
         DWORD dwErrorControl;
+        DWORD dwTagId;
         BSTR lpBinaryPathName;
         BSTR lpLoadOrderGroup;
         BSTR lpDependencies;
-        DWORD dwTagId;
         BSTR lpServiceStartName;
         BSTR lpDisplayName;
     };
@@ -53,15 +53,17 @@ library ServiceLib
 
     struct SERVICE_FAILURE_ACTIONS_UDT {
         DWORD     dwResetPeriod;
-        BSTR     lpRebootMsg;
-        BSTR     lpCommand;
         DWORD     cActions;
         struct SC_ACTION_UDT lpsaAction1;
         struct SC_ACTION_UDT lpsaAction2;
         struct SC_ACTION_UDT lpsaAction3;
-
+        BSTR     lpRebootMsg;
+        BSTR     lpCommand;
     };
 
+    struct SERVICE_DESCRIPTION_UDT {
+        BSTR lpDescription;
+    };
 
 
     //<Guid("993CD48A-7763-4C8E-A919-BCB81CDFCAD4")>
@@ -75,9 +77,11 @@ library ServiceLib
 
         HRESULT queryServiceConfigSM([in] BSTR serviceName, [out] struct QUERY_SERVICE_CONFIG_UDT* serviceConfig);
         
-        HRESULT queryServiceFailureActionsSM([in] BSTR serviceName, [in, out] struct SERVICE_FAILURE_ACTIONS_UDT* serviceConfig);
+        HRESULT queryServiceFailureActionsSM([in] BSTR serviceName, [out] struct SERVICE_FAILURE_ACTIONS_UDT* serviceConfig);
 
         HRESULT changeServiceFailureActionsSM([in] BSTR serviceName, [in, out] struct SERVICE_FAILURE_ACTIONS_UDT* serviceConfig);
+
+        HRESULT queryServiceDescriptionSM([in] BSTR serviceName, [out] struct SERVICE_DESCRIPTION_UDT* serviceDescription);
 
 
         HRESULT changeServiceConfigSM([in] BSTR serviceName, [in, out] struct QUERY_SERVICE_CONFIG_UDT* serviceConfig);

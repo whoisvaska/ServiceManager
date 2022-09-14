@@ -563,12 +563,18 @@ STDMETHODIMP ServiceManager::changeServiceConfigSM(BSTR serviceName, QUERY_SERVI
 	else{
 		MessageBox(NULL, "ChangeServiceConfigW == OK", "QI", MB_OK | MB_SETFOREGROUND);
 	}
+
+	CloseServiceHandle(schService);
+	CloseServiceHandle(schSCManager);
 	return S_OK;
 }
 
 
 STDMETHODIMP ServiceManager::queryServiceConfigSM(BSTR serviceName, QUERY_SERVICE_CONFIG_UDT* serviceConfig) {
 	HRESULT hr = S_OK;
+
+	MessageBox(NULL, "queryServiceConfigSM", "QI", MB_OK | MB_SETFOREGROUND);
+
 
 	SC_HANDLE schSCManager = OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS);
 	if (NULL == schSCManager) {
@@ -622,7 +628,14 @@ STDMETHODIMP ServiceManager::queryServiceConfigSM(BSTR serviceName, QUERY_SERVIC
 			return -1;
 		}
 		//*serviceConfig.
-		
+		try
+		{
+
+		}
+		catch (const std::exception&)
+		{
+
+		}
 		serviceConfig->dwServiceType = lpServiceConfig->dwServiceType;
 		serviceConfig->dwStartType = lpServiceConfig->dwStartType;
 		serviceConfig->dwErrorControl = lpServiceConfig->dwErrorControl;
@@ -631,23 +644,17 @@ STDMETHODIMP ServiceManager::queryServiceConfigSM(BSTR serviceName, QUERY_SERVIC
 		serviceConfig->dwTagId = lpServiceConfig->dwTagId;
 		serviceConfig->lpDependencies = SysAllocString(lpServiceConfig->lpDependencies);
 		serviceConfig->lpServiceStartName = SysAllocString(lpServiceConfig->lpServiceStartName);
-		
-		
 		serviceConfig->lpDisplayName = SysAllocString(lpServiceConfig->lpDisplayName);
-
-
-
-		std::string s = std::to_string(serviceConfig->dwStartType);
-		MessageBox(NULL, s.c_str(), "QI", MB_OK | MB_SETFOREGROUND);
-
-
-
 
 		LocalFree(lpServiceConfig);
 	}
 	else {
 		MessageBox(NULL, "QueryServiceConfigWSM == NOtOK", "QI", MB_OK | MB_SETFOREGROUND);
 	}
+
+
+	CloseServiceHandle(schService);
+	CloseServiceHandle(schSCManager);
 
 	MessageBox(NULL, "QueryServiceConfigWSM == OK", "QI", MB_OK | MB_SETFOREGROUND);
 
@@ -711,13 +718,94 @@ STDMETHODIMP ServiceManager::changeServiceFailureActionsSM(BSTR serviceName, str
 		MessageBox(NULL, "ChangeServiceConfig2W == OK", "QI", MB_OK | MB_SETFOREGROUND);
 	}
 
+	CloseServiceHandle(schService);
+	CloseServiceHandle(schSCManager);
 	
 	return S_OK;
 }
 
 
+
+STDMETHODIMP ServiceManager::queryServiceDescriptionSM(BSTR serviceName, struct SERVICE_DESCRIPTION_UDT* serviceDescription) {
+	HRESULT hr = S_OK;
+
+	MessageBox(NULL, "queryServiceDescriptionSM", "QI", MB_OK | MB_SETFOREGROUND);
+
+
+	SC_HANDLE schSCManager = OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS);
+	if (NULL == schSCManager) {
+		ErrorDescription(GetLastError());
+		return -1;
+	}
+
+	else {
+		MessageBox(NULL, "Open SCM sucessfully2 (Description)", "QI", MB_OK | MB_SETFOREGROUND);
+	}
+
+	SC_HANDLE schService = OpenServiceW(schSCManager, serviceName, SERVICE_ALL_ACCESS);
+	if (NULL == schService) {
+		ErrorDescription(GetLastError());
+		return -1;
+	}
+
+	else {
+		MessageBox(NULL, "Open Service sucessfully2(Description)", "QI", MB_OK | MB_SETFOREGROUND);
+	}
+
+	DWORD dwBytesNeeded = 0;
+	DWORD dwBufSize = 0;
+
+	LPBYTE lpBuffer = NULL;
+
+	if (!QueryServiceConfig2W(schService, SERVICE_CONFIG_DESCRIPTION, lpBuffer, 0, &dwBytesNeeded)) {
+
+		if (GetLastError() != ERROR_INSUFFICIENT_BUFFER) {
+			ErrorDescription(GetLastError());
+			MessageBox(NULL, "GetLsatErr != ERROR_INSUFFICIENT_BUFFER", "QI", MB_OK | MB_SETFOREGROUND);
+
+			return -1;
+		}
+		lpBuffer = (BYTE*)LocalAlloc(LMEM_FIXED, dwBytesNeeded);
+
+		if (lpBuffer == NULL) {
+			ErrorDescription(GetLastError());
+			MessageBox(NULL, "lpServiceConfig == NULL", "QI", MB_OK | MB_SETFOREGROUND);
+
+			return -1;
+		}
+
+		dwBufSize = dwBytesNeeded;
+		if (!QueryServiceConfig2W(schService, SERVICE_CONFIG_DESCRIPTION, lpBuffer, dwBufSize, &dwBytesNeeded)) {
+			ErrorDescription(GetLastError());
+			MessageBox(NULL, "QueryServiceConfig2W == Error (Description)", "QI", MB_OK | MB_SETFOREGROUND);
+
+			return -1;
+		}
+		
+		serviceDescription->lpDescription = SysAllocString(reinterpret_cast<SERVICE_DESCRIPTIONW*>(lpBuffer)->lpDescription);
+
+		LocalFree(lpBuffer);
+	}
+	else {
+		MessageBox(NULL, "QueryServiceConfigW2SM == NOtOK (Description)", "QI", MB_OK | MB_SETFOREGROUND);
+	}
+
+	MessageBox(NULL, "queryServiceDescriptionSM == OK (Description)", "QI", MB_OK | MB_SETFOREGROUND);
+
+	CloseServiceHandle(schService);
+	CloseServiceHandle(schSCManager);
+
+	return S_OK;
+
+}
+
+
+
 STDMETHODIMP ServiceManager::queryServiceFailureActionsSM(BSTR serviceName, SERVICE_FAILURE_ACTIONS_UDT* serviceConfig) {
 	HRESULT hr = S_OK;
+
+	//ErrorDescription(GetLastError());
+	MessageBox(NULL, "queryServiceFailureActionsSM", "QI", MB_OK | MB_SETFOREGROUND);
 
 	SC_HANDLE schSCManager = OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS);
 	if (NULL == schSCManager) {
@@ -768,7 +856,6 @@ STDMETHODIMP ServiceManager::queryServiceFailureActionsSM(BSTR serviceName, SERV
 
 			return -1;
 		}
-		std::string s;
 		//s = std::to_string(reinterpret_cast<SERVICE_FAILURE_ACTIONSW*>(serviceConfig)->lpsaActions[0].Type);
 		//MessageBox(NULL, s.c_str(), "action", MB_OK | MB_SETFOREGROUND);
 		//serviceConfig->lpsaActions[0].Type = 22;
@@ -778,24 +865,38 @@ STDMETHODIMP ServiceManager::queryServiceFailureActionsSM(BSTR serviceName, SERV
 
 		MessageBox(NULL, "Before alloc", "QI", MB_OK | MB_SETFOREGROUND);
 
-
+		//<SERVICE_FAILURE_ACTIONSW*>(lpBuffer);
 		serviceConfig->lpCommand = SysAllocString( reinterpret_cast<SERVICE_FAILURE_ACTIONSW*>(lpBuffer)->lpCommand);
 		serviceConfig->lpRebootMsg = SysAllocString(reinterpret_cast<SERVICE_FAILURE_ACTIONSW*>(lpBuffer)->lpRebootMsg);
 
 		MessageBox(NULL, "after alloc", "QI", MB_OK | MB_SETFOREGROUND);
 
+		if (reinterpret_cast<SERVICE_FAILURE_ACTIONSW*>(lpBuffer)->lpsaActions != NULL) {
+		
+			serviceConfig->lpsaAction1.Type = reinterpret_cast<SERVICE_FAILURE_ACTIONSW*>(lpBuffer)->lpsaActions[0].Type;
+			serviceConfig->lpsaAction1.Delay = reinterpret_cast<SERVICE_FAILURE_ACTIONSW*>(lpBuffer)->lpsaActions[0].Delay;
 
-		serviceConfig->lpsaAction1.Type = reinterpret_cast<SERVICE_FAILURE_ACTIONSW*>(lpBuffer)->lpsaActions[0].Type;
-		serviceConfig->lpsaAction1.Delay = reinterpret_cast<SERVICE_FAILURE_ACTIONSW*>(lpBuffer)->lpsaActions[0].Delay;
-		serviceConfig->lpsaAction2.Type = reinterpret_cast<SERVICE_FAILURE_ACTIONSW*>(lpBuffer)->lpsaActions[1].Type;
-		serviceConfig->lpsaAction2.Delay = reinterpret_cast<SERVICE_FAILURE_ACTIONSW*>(lpBuffer)->lpsaActions[1].Delay;
-		serviceConfig->lpsaAction3.Type = reinterpret_cast<SERVICE_FAILURE_ACTIONSW*>(lpBuffer)->lpsaActions[2].Type;
-		serviceConfig->lpsaAction3.Delay = reinterpret_cast<SERVICE_FAILURE_ACTIONSW*>(lpBuffer)->lpsaActions[2].Delay;
+			serviceConfig->lpsaAction2.Type = reinterpret_cast<SERVICE_FAILURE_ACTIONSW*>(lpBuffer)->lpsaActions[1].Type;
+			serviceConfig->lpsaAction2.Delay = reinterpret_cast<SERVICE_FAILURE_ACTIONSW*>(lpBuffer)->lpsaActions[1].Delay;
+
+			serviceConfig->lpsaAction3.Type = reinterpret_cast<SERVICE_FAILURE_ACTIONSW*>(lpBuffer)->lpsaActions[2].Type;
+			serviceConfig->lpsaAction3.Delay = reinterpret_cast<SERVICE_FAILURE_ACTIONSW*>(lpBuffer)->lpsaActions[2].Delay;
+		}
+
+		else {
+			MessageBox(NULL, "lpBufffer actions == null", "QI", MB_OK | MB_SETFOREGROUND);
+
+		}
+
+		
 
 	}
 	else {
 		MessageBox(NULL, "QueryServiceConfigW2SM == NOtOK", "QI", MB_OK | MB_SETFOREGROUND);
 	}
+
+	CloseServiceHandle(schService);
+	CloseServiceHandle(schSCManager);
 
 	MessageBox(NULL, "QueryServiceConfigW2SM == OK", "QI", MB_OK | MB_SETFOREGROUND);
 
@@ -844,13 +945,7 @@ STDMETHODIMP ServiceManager::queryServiceInfo(BSTR serviceName, SERVICE_STATUS_P
 	//ENUM_SERVICE_STATUS service;
 	SERVICE_STATUS serviceStatus;
 
-	//DWORD dwBytesNeeded = 0;
-	//DWORD dwServicesReturned = 0;
-	//DWORD dwResumedHandle = 0;
 
-	ENUM_SERVICE_STATUS* pServices = NULL;
-
-	DWORD dwServiceType = SERVICE_WIN32 | SERVICE_DRIVER;
 
 	BOOL retVal = QueryServiceStatus(schService, &serviceStatus);
 	if (!retVal) {
@@ -861,7 +956,13 @@ STDMETHODIMP ServiceManager::queryServiceInfo(BSTR serviceName, SERVICE_STATUS_P
 		//MessageBox(NULL, "Query Service sucessfully", "QI", MB_OK | MB_SETFOREGROUND);
 	}
 
-	memcpy_s(psaServiceInfo, sizeof(SERVICE_STATUS_PROCESS_UDT), &serviceStatus, sizeof(SERVICE_STATUS));
+	psaServiceInfo->dwCheckPoint = serviceStatus.dwCheckPoint;
+	psaServiceInfo->dwControlsAccepted = serviceStatus.dwControlsAccepted;
+	psaServiceInfo->dwCurrentState = serviceStatus.dwCurrentState;
+	psaServiceInfo->dwServiceSpecificExitCode = serviceStatus.dwServiceSpecificExitCode;
+	psaServiceInfo->dwServiceType = serviceStatus.dwServiceType;
+	psaServiceInfo->dwWaitHint = serviceStatus.dwWaitHint;
+	psaServiceInfo->dwWin32ExitCode = serviceStatus.dwWin32ExitCode;
 
 	return S_OK;
 }

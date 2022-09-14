@@ -6,9 +6,9 @@
 #include "qcombobox.h"
 #include "qboxlayout.h"
 #include "qlineedit.h"
+#include "qlabel.h"
 
 #include "service_settings_tab.h"
-
 
 class RecoverySettingsTab : public QWidget
 {
@@ -22,7 +22,6 @@ private slots:
     void changeFailureAction(int actionNumber, int newAction);
     void changeResetPeriod(const QString& period);
     void changeRunProgram(const QString& program);
-
 private:
     QComboBox* failure1actionBox;
     QComboBox* failure2actionBox;

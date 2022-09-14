@@ -8,6 +8,8 @@
 #include "qdialogbuttonbox.h"
 #include "QSignalMapper"
 
+
+#include "value_to_str.h"
 #include "general_settings_tab.h"
 #include "recovery_settings_tab.h"
 
@@ -26,13 +28,15 @@ public:
 
     void updateServiceInfo();
 
+    QString serviceName;
+
+
     SERVICE_STATUS_PROCESS_UDT serviceStatus;
     QUERY_SERVICE_CONFIG_UDT serviceConfig;
     SERVICE_FAILURE_ACTIONS_UDT serviceFailureActions;
-    //SERVICE_FAILURE_ACTIONSW serviceFailureActions_;
+    SERVICE_DESCRIPTION_UDT serviceDescription;
 
     QPushButton* applySettingsBtn;
-
     QPushButton* closeSettingsBtn;
     QPushButton* okSettingsBtn;
 
@@ -43,14 +47,7 @@ public:
 
 private slots:
     void closeSettings();
-    //void changeStartType(int);
-    //void setServiceConfig();
-
-
-
 private:
-    QString serviceName;
-
     QTabWidget* tabWidget;
     //QPushButton* buttonBox;
     IManager* pIManager;

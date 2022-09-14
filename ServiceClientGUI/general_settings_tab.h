@@ -12,6 +12,7 @@ class GeneralSettingsTab : public QWidget
 
 public:
     GeneralSettingsTab(QWidget* parent);
+    ~GeneralSettingsTab();
     void updateInfo();
 
 private slots:
@@ -23,6 +24,14 @@ private slots:
 
 private:
     
+    QLabel* serviceName;
+    QLabel* displayName;
+    QLabel* startType;
+    QLabel* currentState;
+    QLabel* description;
+
+
+
     QPushButton* startBtn;
     QPushButton* stopBtn;
 
