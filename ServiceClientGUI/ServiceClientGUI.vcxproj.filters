@@ -55,6 +55,9 @@
     <ClCompile Include="recovery_settings_tab.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="dependent_services_tab.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="value_to_str.h">
@@ -72,6 +75,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="recovery_settings_tab.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="dependent_services_tab.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

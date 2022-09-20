@@ -35,20 +35,20 @@ STDMETHODIMP ServiceManager::QueryInterface(REFIID riid, void** pIFace)
 	if (riid == IID_IUnknown)
 	{
 		*pIFace = (IUnknown*)(IManager*)this;
-		MessageBox(NULL, "Handed out IUnknown", "QI", MB_OK | MB_SETFOREGROUND);
+		//MessageBox(NULL, "Handed out IUnknown", "QI", MB_OK | MB_SETFOREGROUND);
 	}
 
 	else if (riid == IID_IManager)
 	{
 		*pIFace = (IManager*)this;
-		MessageBox(NULL, "Handed out Manager", "QI", MB_OK | MB_SETFOREGROUND);
+		//MessageBox(NULL, "Handed out Manager", "QI", MB_OK | MB_SETFOREGROUND);
 	}
 
 
 	else if (riid == IID_ICreateManager)
 	{
 		*pIFace = (ICreateManager*)this;
-		MessageBox(NULL, "Handed out ICreateServiceManager", "QI", MB_OK | MB_SETFOREGROUND);
+		//MessageBox(NULL, "Handed out ICreateServiceManager", "QI", MB_OK | MB_SETFOREGROUND);
 	}
 	else
 	{
@@ -297,7 +297,7 @@ STDMETHODIMP ServiceManager::startService(BSTR szServiceName)
 
 	if (ssStatus.dwCurrentState == SERVICE_RUNNING)
 	{
-		MessageBoxA(NULL, "Service started successfully ", "QI", MB_OK | MB_SETFOREGROUND);
+		//MessageBoxA(NULL, "Service started successfully ", "QI", MB_OK | MB_SETFOREGROUND);
 
 
 		//printf("Service started successfully.\n");
@@ -312,7 +312,7 @@ STDMETHODIMP ServiceManager::startService(BSTR szServiceName)
 	}
 
 
-	MessageBoxA(NULL, "Service started successfully ", "QI", MB_OK | MB_SETFOREGROUND);
+	//MessageBoxA(NULL, "Service started successfully ", "QI", MB_OK | MB_SETFOREGROUND);
 
 	CloseServiceHandle(schService);
 	CloseServiceHandle(schSCManager);
@@ -343,7 +343,7 @@ STDMETHODIMP ServiceManager::stopService(BSTR szServiceName) {
 		return -1;
 	}
 
-	MessageBox(NULL, "OpenSCManager() success", "QI", MB_OK | MB_SETFOREGROUND);
+	//MessageBox(NULL, "OpenSCManager() success", "QI", MB_OK | MB_SETFOREGROUND);
 
 
 	schService = OpenServiceW(
@@ -370,7 +370,7 @@ STDMETHODIMP ServiceManager::stopService(BSTR szServiceName) {
 		CloseServiceHandle(schSCManager);
 		return -1;
 	}
-	MessageBox(NULL, "OpenServiceW() success", "QI", MB_OK | MB_SETFOREGROUND);
+	//MessageBox(NULL, "OpenServiceW() success", "QI", MB_OK | MB_SETFOREGROUND);
 
 
 	if (!QueryServiceStatusEx(
@@ -507,7 +507,7 @@ STDMETHODIMP ServiceManager::changeServiceConfigSM(BSTR serviceName, QUERY_SERVI
 	}
 
 	else {
-		MessageBox(NULL, "Open SCM sucessfully", "QI", MB_OK | MB_SETFOREGROUND);
+		//MessageBox(NULL, "Open SCM sucessfully", "QI", MB_OK | MB_SETFOREGROUND);
 	}
 
 	SC_HANDLE schService = OpenServiceW(schSCManager, serviceName, SERVICE_ALL_ACCESS);
@@ -517,7 +517,7 @@ STDMETHODIMP ServiceManager::changeServiceConfigSM(BSTR serviceName, QUERY_SERVI
 	}
 
 	else {
-		MessageBox(NULL, "Open Service sucessfully", "QI", MB_OK | MB_SETFOREGROUND);
+		//MessageBox(NULL, "Open Service sucessfully", "QI", MB_OK | MB_SETFOREGROUND);
 	}
 
 	if (!ChangeServiceConfigW(
@@ -557,11 +557,11 @@ STDMETHODIMP ServiceManager::changeServiceConfigSM(BSTR serviceName, QUERY_SERVI
 	{
 		ErrorDescription(GetLastError());
 
-		MessageBox(NULL, "ChangeServiceConfigW == not OK", "QI", MB_OK | MB_SETFOREGROUND);
+		//MessageBox(NULL, "ChangeServiceConfigW == not OK", "QI", MB_OK | MB_SETFOREGROUND);
 		return -1;
 	}
 	else{
-		MessageBox(NULL, "ChangeServiceConfigW == OK", "QI", MB_OK | MB_SETFOREGROUND);
+		//MessageBox(NULL, "ChangeServiceConfigW == OK", "QI", MB_OK | MB_SETFOREGROUND);
 	}
 
 	CloseServiceHandle(schService);
@@ -573,7 +573,7 @@ STDMETHODIMP ServiceManager::changeServiceConfigSM(BSTR serviceName, QUERY_SERVI
 STDMETHODIMP ServiceManager::queryServiceConfigSM(BSTR serviceName, QUERY_SERVICE_CONFIG_UDT* serviceConfig) {
 	HRESULT hr = S_OK;
 
-	MessageBox(NULL, "queryServiceConfigSM", "QI", MB_OK | MB_SETFOREGROUND);
+	//MessageBox(NULL, "queryServiceConfigSM", "QI", MB_OK | MB_SETFOREGROUND);
 
 
 	SC_HANDLE schSCManager = OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS);
@@ -583,17 +583,17 @@ STDMETHODIMP ServiceManager::queryServiceConfigSM(BSTR serviceName, QUERY_SERVIC
 	}
 
 	else {
-		MessageBox(NULL, "Open SCM sucessfully", "QI", MB_OK | MB_SETFOREGROUND);
+		//MessageBox(NULL, "Open SCM sucessfully", "QI", MB_OK | MB_SETFOREGROUND);
 	}
 
-	SC_HANDLE schService = OpenServiceW(schSCManager, serviceName, SERVICE_ALL_ACCESS);
+	SC_HANDLE schService = OpenServiceW(schSCManager, serviceName, SERVICE_QUERY_CONFIG);
 	if (NULL == schService) {
 		ErrorDescription(GetLastError());
 		return -1;
 	}
 
 	else {
-		MessageBox(NULL, "Open Service sucessfully", "QI", MB_OK | MB_SETFOREGROUND);
+		//MessageBox(NULL, "Open Service sucessfully", "QI", MB_OK | MB_SETFOREGROUND);
 	}
 
 	DWORD dwBytesNeeded = 0;
@@ -627,15 +627,7 @@ STDMETHODIMP ServiceManager::queryServiceConfigSM(BSTR serviceName, QUERY_SERVIC
 
 			return -1;
 		}
-		//*serviceConfig.
-		try
-		{
 
-		}
-		catch (const std::exception&)
-		{
-
-		}
 		serviceConfig->dwServiceType = lpServiceConfig->dwServiceType;
 		serviceConfig->dwStartType = lpServiceConfig->dwStartType;
 		serviceConfig->dwErrorControl = lpServiceConfig->dwErrorControl;
@@ -656,7 +648,7 @@ STDMETHODIMP ServiceManager::queryServiceConfigSM(BSTR serviceName, QUERY_SERVIC
 	CloseServiceHandle(schService);
 	CloseServiceHandle(schSCManager);
 
-	MessageBox(NULL, "QueryServiceConfigWSM == OK", "QI", MB_OK | MB_SETFOREGROUND);
+	//MessageBox(NULL, "QueryServiceConfigWSM == OK", "QI", MB_OK | MB_SETFOREGROUND);
 
 	return S_OK;
 }
@@ -671,7 +663,7 @@ STDMETHODIMP ServiceManager::changeServiceFailureActionsSM(BSTR serviceName, str
 	}
 
 	else {
-		MessageBox(NULL, "Open SCM sucessfully", "QI", MB_OK | MB_SETFOREGROUND);
+		//MessageBox(NULL, "Open SCM sucessfully", "QI", MB_OK | MB_SETFOREGROUND);
 	}
 
 	SC_HANDLE schService = OpenServiceW(schSCManager, serviceName, SERVICE_ALL_ACCESS);
@@ -681,7 +673,7 @@ STDMETHODIMP ServiceManager::changeServiceFailureActionsSM(BSTR serviceName, str
 	}
 
 	else {
-		MessageBox(NULL, "Open Service sucessfully", "QI", MB_OK | MB_SETFOREGROUND);
+		//MessageBox(NULL, "Open Service sucessfully", "QI", MB_OK | MB_SETFOREGROUND);
 	}
 
 	DWORD dwBytesNeeded = 0;
@@ -691,9 +683,9 @@ STDMETHODIMP ServiceManager::changeServiceFailureActionsSM(BSTR serviceName, str
 
 
 	SC_ACTION failureActions[3] = {
-		{(SC_ACTION_TYPE)(serviceConfig->lpsaAction1.Type), 0 },
-		{(SC_ACTION_TYPE)(serviceConfig->lpsaAction2.Type), 0 },
-		{(SC_ACTION_TYPE)(serviceConfig->lpsaAction3.Type), 0 },
+		{(SC_ACTION_TYPE)(serviceConfig->lpsaAction1.Type), serviceConfig->lpsaAction1.Delay },
+		{(SC_ACTION_TYPE)(serviceConfig->lpsaAction2.Type), serviceConfig->lpsaAction2.Delay },
+		{(SC_ACTION_TYPE)(serviceConfig->lpsaAction3.Type), serviceConfig->lpsaAction3.Delay },
 	};
 
 	SERVICE_FAILURE_ACTIONSW serviceFailureActions;
@@ -715,7 +707,7 @@ STDMETHODIMP ServiceManager::changeServiceFailureActionsSM(BSTR serviceName, str
 
 	}
 	else {
-		MessageBox(NULL, "ChangeServiceConfig2W == OK", "QI", MB_OK | MB_SETFOREGROUND);
+		//MessageBox(NULL, "ChangeServiceConfig2W == OK", "QI", MB_OK | MB_SETFOREGROUND);
 	}
 
 	CloseServiceHandle(schService);
@@ -729,7 +721,7 @@ STDMETHODIMP ServiceManager::changeServiceFailureActionsSM(BSTR serviceName, str
 STDMETHODIMP ServiceManager::queryServiceDescriptionSM(BSTR serviceName, struct SERVICE_DESCRIPTION_UDT* serviceDescription) {
 	HRESULT hr = S_OK;
 
-	MessageBox(NULL, "queryServiceDescriptionSM", "QI", MB_OK | MB_SETFOREGROUND);
+	//MessageBox(NULL, "queryServiceDescriptionSM", "QI", MB_OK | MB_SETFOREGROUND);
 
 
 	SC_HANDLE schSCManager = OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS);
@@ -739,7 +731,7 @@ STDMETHODIMP ServiceManager::queryServiceDescriptionSM(BSTR serviceName, struct 
 	}
 
 	else {
-		MessageBox(NULL, "Open SCM sucessfully2 (Description)", "QI", MB_OK | MB_SETFOREGROUND);
+		//MessageBox(NULL, "Open SCM sucessfully2 (Description)", "QI", MB_OK | MB_SETFOREGROUND);
 	}
 
 	SC_HANDLE schService = OpenServiceW(schSCManager, serviceName, SERVICE_ALL_ACCESS);
@@ -749,7 +741,7 @@ STDMETHODIMP ServiceManager::queryServiceDescriptionSM(BSTR serviceName, struct 
 	}
 
 	else {
-		MessageBox(NULL, "Open Service sucessfully2(Description)", "QI", MB_OK | MB_SETFOREGROUND);
+		//MessageBox(NULL, "Open Service sucessfully2(Description)", "QI", MB_OK | MB_SETFOREGROUND);
 	}
 
 	DWORD dwBytesNeeded = 0;
@@ -790,7 +782,7 @@ STDMETHODIMP ServiceManager::queryServiceDescriptionSM(BSTR serviceName, struct 
 		MessageBox(NULL, "QueryServiceConfigW2SM == NOtOK (Description)", "QI", MB_OK | MB_SETFOREGROUND);
 	}
 
-	MessageBox(NULL, "queryServiceDescriptionSM == OK (Description)", "QI", MB_OK | MB_SETFOREGROUND);
+	//MessageBox(NULL, "queryServiceDescriptionSM == OK (Description)", "QI", MB_OK | MB_SETFOREGROUND);
 
 	CloseServiceHandle(schService);
 	CloseServiceHandle(schSCManager);
@@ -805,7 +797,7 @@ STDMETHODIMP ServiceManager::queryServiceFailureActionsSM(BSTR serviceName, SERV
 	HRESULT hr = S_OK;
 
 	//ErrorDescription(GetLastError());
-	MessageBox(NULL, "queryServiceFailureActionsSM", "QI", MB_OK | MB_SETFOREGROUND);
+	//MessageBox(NULL, "queryServiceFailureActionsSM", "QI", MB_OK | MB_SETFOREGROUND);
 
 	SC_HANDLE schSCManager = OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS);
 	if (NULL == schSCManager) {
@@ -814,7 +806,7 @@ STDMETHODIMP ServiceManager::queryServiceFailureActionsSM(BSTR serviceName, SERV
 	}
 
 	else {
-		MessageBox(NULL, "Open SCM sucessfully2", "QI", MB_OK | MB_SETFOREGROUND);
+		//MessageBox(NULL, "Open SCM sucessfully2", "QI", MB_OK | MB_SETFOREGROUND);
 	}
 
 	SC_HANDLE schService = OpenServiceW(schSCManager, serviceName, SERVICE_ALL_ACCESS);
@@ -824,7 +816,7 @@ STDMETHODIMP ServiceManager::queryServiceFailureActionsSM(BSTR serviceName, SERV
 	}
 
 	else {
-		MessageBox(NULL, "Open Service sucessfully2", "QI", MB_OK | MB_SETFOREGROUND);
+		//MessageBox(NULL, "Open Service sucessfully2", "QI", MB_OK | MB_SETFOREGROUND);
 	}
 
 	DWORD dwBytesNeeded = 0;
@@ -863,13 +855,13 @@ STDMETHODIMP ServiceManager::queryServiceFailureActionsSM(BSTR serviceName, SERV
 		serviceConfig->cActions = reinterpret_cast<SERVICE_FAILURE_ACTIONSW*>(lpBuffer)->cActions;
 		serviceConfig->dwResetPeriod = reinterpret_cast<SERVICE_FAILURE_ACTIONSW*>(lpBuffer)->dwResetPeriod;
 
-		MessageBox(NULL, "Before alloc", "QI", MB_OK | MB_SETFOREGROUND);
+		//MessageBox(NULL, "Before alloc", "QI", MB_OK | MB_SETFOREGROUND);
 
 		//<SERVICE_FAILURE_ACTIONSW*>(lpBuffer);
 		serviceConfig->lpCommand = SysAllocString( reinterpret_cast<SERVICE_FAILURE_ACTIONSW*>(lpBuffer)->lpCommand);
 		serviceConfig->lpRebootMsg = SysAllocString(reinterpret_cast<SERVICE_FAILURE_ACTIONSW*>(lpBuffer)->lpRebootMsg);
 
-		MessageBox(NULL, "after alloc", "QI", MB_OK | MB_SETFOREGROUND);
+		//MessageBox(NULL, "after alloc", "QI", MB_OK | MB_SETFOREGROUND);
 
 		if (reinterpret_cast<SERVICE_FAILURE_ACTIONSW*>(lpBuffer)->lpsaActions != NULL) {
 		
@@ -884,11 +876,11 @@ STDMETHODIMP ServiceManager::queryServiceFailureActionsSM(BSTR serviceName, SERV
 		}
 
 		else {
-			MessageBox(NULL, "lpBufffer actions == null", "QI", MB_OK | MB_SETFOREGROUND);
+			//MessageBox(NULL, "lpBufffer actions == null", "QI", MB_OK | MB_SETFOREGROUND);
 
 		}
 
-		
+		LocalFree(lpBuffer);
 
 	}
 	else {
@@ -898,7 +890,7 @@ STDMETHODIMP ServiceManager::queryServiceFailureActionsSM(BSTR serviceName, SERV
 	CloseServiceHandle(schService);
 	CloseServiceHandle(schSCManager);
 
-	MessageBox(NULL, "QueryServiceConfigW2SM == OK", "QI", MB_OK | MB_SETFOREGROUND);
+	//MessageBox(NULL, "QueryServiceConfigW2SM == OK", "QI", MB_OK | MB_SETFOREGROUND);
 
 	return S_OK;
 }
@@ -907,10 +899,8 @@ STDMETHODIMP ServiceManager::queryServiceFailureActionsSM(BSTR serviceName, SERV
 STDMETHODIMP ServiceManager::queryServiceInfo(BSTR serviceName, SERVICE_STATUS_PROCESS_UDT* psaServiceInfo) {
 	HRESULT hr = S_OK;
 
-	MessageBoxW(NULL, serviceName, L"QI", MB_OK | MB_SETFOREGROUND);
+	//MessageBoxW(NULL, serviceName, L"QI", MB_OK | MB_SETFOREGROUND);
 
-
-	//? почему тут ENUM_SERVICE_STATUS_PROCESS_UDT, если возвращаем SERVICE_STATUS_PROCESS_UDT ?
 	GUID GUID_ENUM_SERVICE_STATUS_PROCESS_UDT = __uuidof(ENUM_SERVICE_STATUS_PROCESS_UDT);
 
 	IRecordInfo* recordInfo;
@@ -926,7 +916,7 @@ STDMETHODIMP ServiceManager::queryServiceInfo(BSTR serviceName, SERVICE_STATUS_P
 	}
 
 	else {
-		MessageBox(NULL, "Open SCM sucessfully", "QI", MB_OK | MB_SETFOREGROUND);
+		//MessageBox(NULL, "Open SCM sucessfully", "QI", MB_OK | MB_SETFOREGROUND);
 	}
 
 
@@ -938,7 +928,7 @@ STDMETHODIMP ServiceManager::queryServiceInfo(BSTR serviceName, SERVICE_STATUS_P
 	}
 
 	else {
-		MessageBox(NULL, "Open Service sucessfully", "QI", MB_OK | MB_SETFOREGROUND);
+		//MessageBox(NULL, "Open Service sucessfully", "QI", MB_OK | MB_SETFOREGROUND);
 	}
 
 
@@ -974,9 +964,6 @@ STDMETHODIMP ServiceManager::getServices(int* servicesCount, SAFEARRAY ** psaSer
 
 	HRESULT hr = S_OK;
 
-	//struct DECLSPEC_UUID("D8B3861A-74C6-11d2-0000-00C04FB17CCA")
-		            //EnumServiceStatusUDT;
-
 	GUID GUID_ENUM_SERVICE_STATUS_PROCESS_UDT = __uuidof(ENUM_SERVICE_STATUS_PROCESS_UDT);
 
 	IRecordInfo* recordInfo;
@@ -992,7 +979,7 @@ STDMETHODIMP ServiceManager::getServices(int* servicesCount, SAFEARRAY ** psaSer
 	}
 
 	else {
-		MessageBox(NULL, "Open SCM sucessfully", "QI", MB_OK | MB_SETFOREGROUND);
+		//MessageBox(NULL, "Open SCM sucessfully", "QI", MB_OK | MB_SETFOREGROUND);
 	}
 
 
@@ -1089,7 +1076,7 @@ STDMETHODIMP ServiceManager::getServices(int* servicesCount, SAFEARRAY ** psaSer
 		else {
 			ErrorDescription(GetLastError());
 		}
-		MessageBox(NULL, "Close SCM sucessfully", "QI", MB_OK | MB_SETFOREGROUND);
+		//MessageBox(NULL, "Close SCM sucessfully", "QI", MB_OK | MB_SETFOREGROUND);
 
 
 		return S_OK;
@@ -1102,15 +1089,130 @@ STDMETHODIMP ServiceManager::getServices(int* servicesCount, SAFEARRAY ** psaSer
 	}
 
 	else {
-		MessageBox(NULL, "Close SCM sucessfully", "QI", MB_OK | MB_SETFOREGROUND);
+		//MessageBox(NULL, "Close SCM sucessfully", "QI", MB_OK | MB_SETFOREGROUND);
 	}
-
-	*servicesCount= 3;
 
 	return 0;
 }
 
-void ErrorDescription(DWORD p_dwError) {
+
+STDMETHODIMP ServiceManager::enumDependentServicesSM(int* servicesCount, BSTR serviceName, SAFEARRAY ** psaDependentServices)
+{
+	HRESULT hr = S_OK;
+	//if (serviceName[0] == 'W')
+	//{
+	//	MessageBoxW(NULL, L"enumDependent", serviceName, MB_OK | MB_SETFOREGROUND);
+
+	//}
+
+	GUID GUID_ENUM_SERVICE_STATUS_PROCESS_UDT = __uuidof(ENUM_SERVICE_STATUS_PROCESS_UDT);
+
+	IRecordInfo* recordInfo;
+
+	hr = GetRecordInfoFromGuids(LIBID_ServiceLib, 1, 0, 0,
+		GUID_ENUM_SERVICE_STATUS_PROCESS_UDT, &recordInfo);
+
+
+	SC_HANDLE schSCManager = OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS);
+	if (NULL == schSCManager) {
+		ErrorDescription(GetLastError());
+		return -1;
+	}
+
+	else {
+		//MessageBox(NULL, "Open SCM sucessfully", "QI", MB_OK | MB_SETFOREGROUND);
+	}
+
+
+
+	SC_HANDLE schService = OpenServiceW(schSCManager, serviceName, SERVICE_ENUMERATE_DEPENDENTS);
+	if (NULL == schService) {
+		ErrorDescription(GetLastError());
+		return -1;
+	}
+
+	else {
+		//MessageBox(NULL, "Open Service sucessfully", "QI", MB_OK | MB_SETFOREGROUND);
+	}
+
+
+	DWORD dwServicesReturned = 0;
+	DWORD dwBytesNeeded = 0;
+	DWORD dwBufSize = 0;
+	LPENUM_SERVICE_STATUSW lpDependencies = NULL;
+
+	BOOL retVal = EnumDependentServicesW(schService, SERVICE_STATE_ALL, NULL,
+		0, &dwBytesNeeded, &dwServicesReturned);
+
+	if (!retVal) {
+		if (ERROR_MORE_DATA == GetLastError()) {
+
+
+			lpDependencies = (LPENUM_SERVICE_STATUSW)HeapAlloc(GetProcessHeap(),
+				0,
+				dwBytesNeeded);
+
+			if (!EnumDependentServicesW(schService, SERVICE_STATE_ALL, lpDependencies,
+				dwBytesNeeded, &dwBytesNeeded, &dwServicesReturned))
+			{
+				ErrorDescription(GetLastError());
+				return -1;
+			}
+
+
+			//if (dwServicesReturned > 0)
+			//{
+			/*if (serviceName[0] == 'W')
+			{
+				MessageBoxW(NULL, serviceName, std::to_wstring(dwServicesReturned).c_str(), MB_OK | MB_SETFOREGROUND);
+
+			*/
+			//}
+
+
+			SAFEARRAYBOUND bounds;
+
+			bounds.cElements = dwServicesReturned;
+			bounds.lLbound = 0;
+
+			*psaDependentServices = SafeArrayCreate(VT_BSTR, 1, &bounds);
+
+			ENUM_SERVICE_STATUS_PROCESS_UDT* pServiceStatus = NULL;
+
+
+			long int i = 0;
+
+			for (unsigned iIndex = 0; iIndex < dwServicesReturned; iIndex++)
+			{
+				BSTR serviceName = SysAllocString(lpDependencies[iIndex].lpDisplayName);
+
+				hr = SafeArrayPutElement(*psaDependentServices, &i, serviceName); //Right
+
+				i++;
+
+				SysFreeString(serviceName);
+			}
+
+			*servicesCount = dwServicesReturned;
+
+						//delete[] pServices;
+		}
+		// there is any other reason
+		else {
+			ErrorDescription(GetLastError());
+		}
+	}
+	//MessageBox(NULL, "Enum Close SCM sucessfully", "QI", MB_OK | MB_SETFOREGROUND);
+	CloseServiceHandle(schService);
+
+	CloseServiceHandle(schSCManager);
+
+	return S_OK;
+}
+
+
+void ErrorDescription(DWORD p_dwError) 
+{
 
 	HLOCAL hLocal = NULL;
 

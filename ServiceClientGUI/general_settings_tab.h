@@ -29,6 +29,7 @@ private:
     QLabel* startType;
     QLabel* currentState;
     QLabel* description;
+    QLabel* pathName;
 
 
 

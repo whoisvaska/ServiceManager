@@ -91,6 +91,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <QtMoc Include="dependent_services_tab.h" />
+    <ClCompile Include="dependent_services_tab.cpp" />
     <ClCompile Include="general_settings_tab.cpp" />
     <QtMoc Include="general_settings_tab.h" />
     <ClCompile Include="recovery_settings_tab.cpp" />

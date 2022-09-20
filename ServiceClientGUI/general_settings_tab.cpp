@@ -4,7 +4,7 @@
 GeneralSettingsTab::GeneralSettingsTab(QWidget* parent)
     : QWidget(parent)
 {
-    QMessageBox::information(this, "", "GeneralSettingsTab");
+    //QMessageBox::information(this, "", "GeneralSettingsTab");
 
     this->serviceSettingsTab = parent;
 
@@ -36,13 +36,19 @@ GeneralSettingsTab::GeneralSettingsTab(QWidget* parent)
     QLabel* startTypeLabel = new QLabel("Startup type:");
     QLabel* currentStateLabel = new QLabel("Service status:");
 
+    QLabel* pathNameLabel = new QLabel("Path to executable:");
+
     serviceName = new QLabel();
     displayName = new QLabel();
     description = new QLabel();
     startType = new QLabel();
     currentState = new QLabel();
+    pathName = new QLabel();
+
 
     description->setWordWrap(true);
+    pathName->setWordWrap(true);
+
 
     layout->addWidget(serviceNameLabel, 0, 0);
     layout->addWidget(serviceName, 0, 1);
@@ -53,12 +59,19 @@ GeneralSettingsTab::GeneralSettingsTab(QWidget* parent)
     layout->addWidget(descriptionLabel, 2, 0);
     layout->addWidget(description, 2, 1);
 
-    layout->addWidget(startTypeLabel, 3, 0);
-    layout->addWidget(startTypeBox, 3, 1);
+    layout->addWidget(pathNameLabel, 3, 0);
+    layout->addWidget(pathName, 3, 1);
 
-    layout->addWidget(currentStateLabel, 4, 0);
-    layout->addWidget(currentState, 4, 1);
-    
+    layout->addWidget(startTypeLabel, 4, 0);
+    layout->addWidget(startTypeBox, 4, 1);
+
+    layout->addWidget(currentStateLabel, 5, 0);
+    layout->addWidget(currentState, 5, 1);
+
+    layout->addWidget(startBtn, 6, 0);
+    layout->addWidget(stopBtn, 6, 1);
+
+
     setLayout(layout);
     
     setWindowTitle(tr("Tab Dialog"));
@@ -114,5 +127,8 @@ void GeneralSettingsTab::updateInfo() {
     this->serviceName->setText(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceName);
     this->displayName->setText(QString::fromWCharArray(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceConfig.lpDisplayName));
     this->description->setText(QString::fromWCharArray(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceDescription.lpDescription));
+    
+    this->pathName->setText(QString::fromWCharArray(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceConfig.lpBinaryPathName));
+
     this->currentState->setText(currentStateToString(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceStatus.dwCurrentState));
 }

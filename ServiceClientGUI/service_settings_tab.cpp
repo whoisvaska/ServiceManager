@@ -1,9 +1,13 @@
 #include "service_settings_tab.h"
 
-ServiceSettingsTab::ServiceSettingsTab(QString serviceName_, IManager* pIManager_, QWidget* parent)
+ServiceSettingsTab::ServiceSettingsTab(QString serviceName_, IManager* pIManager_, QMap<QString, QList<QString>> dependentServices_, QWidget* parent)
     : QDialog(parent)
 {
-    QMessageBox::information(this, "", "ServiceSettingsTab");
+    //this->setStyle(QFact)
+    //QMessageBox::information(this, "", "ServiceSettingsTab");
+
+    this->dependentServices = dependentServices_;
+    //this->serviceClientGUI = (parent);
 
     this->pIManager = pIManager_;
     this->serviceName = serviceName_;
@@ -31,9 +35,12 @@ ServiceSettingsTab::ServiceSettingsTab(QString serviceName_, IManager* pIManager
     RecoverySettingsTab* recoverySettingsTab = new RecoverySettingsTab(this);
     tabWidget->addTab(recoverySettingsTab, tr("Recovery"));
 
+    DependentServicesTab* dependentServicesTab = new DependentServicesTab(this);
+    tabWidget->addTab(dependentServicesTab, tr("Dependent"));
 
     this->closeSettingsBtn = new QPushButton();
     this->closeSettingsBtn->setText("Close");
+    //this->closeSettingsBtn->setStyle
     connect(this->closeSettingsBtn, SIGNAL(clicked()), this, SLOT(closeSettings()));
 
     /*GeneralSettingsTab* generalSettingsTab = new GeneralSettingsTab(this);
@@ -49,7 +56,7 @@ ServiceSettingsTab::ServiceSettingsTab(QString serviceName_, IManager* pIManager
     mainLayout->addWidget(applySettingsBtn);
     setLayout(mainLayout);
     this->setWindowTitle(serviceName);
-    this->setFixedSize(640, 480);
+    //this->setFixedSize(640, 480);
 }
 
 
@@ -102,11 +109,11 @@ void ServiceSettingsTab::updateServiceInfo() {
 void ServiceSettingsTab::setServiceConfig(int closeTab) {
     BSTR szServiceName = SysAllocString(serviceName.toStdWString().c_str());
 
-    QMessageBox::information(
+  /*  QMessageBox::information(
         this,
         "setServiceConfig",
         "setServiceConfig",
-        QMessageBox::Ok);
+        QMessageBox::Ok);*/
 
     this->pIManager->changeServiceConfigSM(szServiceName, &this->serviceConfig);
 

@@ -3,9 +3,12 @@
 #include <QtWidgets/QMainWindow>
 #include <iostream>
 #include <QTreeView>
+#include <qtreewidget.h>
 #include <QStandardItemModel>
 #include <qmessagebox.h>
+#include <qlist.h>
 
+#include "qsizepolicy.h"
 
 #include "service_settings_tab.h"
 //#include "service_settings_wnd.h"
@@ -14,6 +17,10 @@
 //#include "../ServiceManager/server_type_info_i.c"
 //#include "../ServiceManager/server_type_info_h.h"
 
+class ServiceSettingsTab;
+class DependentServicesTab;
+class GeneralSettingsTab;
+class RecoverySettingsTab;
 
 
 class ServiceClientGUI : public QMainWindow
@@ -23,6 +30,7 @@ class ServiceClientGUI : public QMainWindow
 public:
     ServiceClientGUI(QWidget *parent = nullptr);
     ~ServiceClientGUI();
+    QMap<QString, QList<QString>> dependentServices;
 
 private slots:
     void ServiceClientGUI::settingsMenuRequested(const QModelIndex& index);
@@ -45,4 +53,5 @@ private:
     ServiceSettingsTab* serviceSettingsTab;
 
     SAFEARRAY* servicesStatus;
+
 };

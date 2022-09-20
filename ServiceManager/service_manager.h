@@ -36,6 +36,8 @@ public:
 	STDMETHODIMP changeServiceFailureActionsSM(BSTR serviceName, struct SERVICE_FAILURE_ACTIONS_UDT* serviceConfig);
 
 	STDMETHODIMP queryServiceDescriptionSM(BSTR serviceName, struct SERVICE_DESCRIPTION_UDT* serviceDescription);
+	
+	STDMETHODIMP enumDependentServicesSM(int* servicesCount, BSTR serviceName, SAFEARRAY** psaDependentServices);
 
 	STDMETHODIMP changeServiceConfigSM(BSTR serviceName, struct QUERY_SERVICE_CONFIG_UDT* serviceConfig);
 	

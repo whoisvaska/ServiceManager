@@ -1,7 +1,5 @@
 #pragma once
 
-
-#pragma once
 #include "qwidget.h"
 #include "qcombobox.h"
 #include "qboxlayout.h"
@@ -20,6 +18,8 @@ public:
 
 private slots:
     void changeFailureAction(int actionNumber, int newAction);
+    void changeFailureActionDelay(int actionNumber, const QString& delay);
+
     void changeResetPeriod(const QString& period);
     void changeRunProgram(const QString& program);
 private:
@@ -30,6 +30,9 @@ private:
     QLineEdit* resetPeriodLineEdit;
     QLineEdit* runProgramLineEdit;
 
-    QWidget* serviceSettingsTab;
+    QLineEdit* failure1actionDelay;
+    QLineEdit* failure2actionDelay;
+    QLineEdit* failure3actionDelay;
 
+    QWidget* serviceSettingsTab;
 };

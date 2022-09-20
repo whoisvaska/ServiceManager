@@ -83,6 +83,7 @@ library ServiceLib
 
         HRESULT queryServiceDescriptionSM([in] BSTR serviceName, [out] struct SERVICE_DESCRIPTION_UDT* serviceDescription);
 
+        HRESULT enumDependentServicesSM([out] int* servicesCount, [in] BSTR serviceName, [out] SAFEARRAY(BSTR)* psaDependentServices);
 
         HRESULT changeServiceConfigSM([in] BSTR serviceName, [in, out] struct QUERY_SERVICE_CONFIG_UDT* serviceConfig);
 

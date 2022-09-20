@@ -4,9 +4,9 @@ RecoverySettingsTab::RecoverySettingsTab(QWidget* parent)
     : QWidget(parent)
 {
 
-    QMessageBox::information(this, "", "RecoverySettingsTab");
+    //QMessageBox::information(this, "", "RecoverySettingsTab");
 
-    this->serviceSettingsTab = parent;
+    this->serviceSettingsTab = (parent);
 
 
     this->failure1actionBox = new QComboBox();
@@ -34,6 +34,23 @@ RecoverySettingsTab::RecoverySettingsTab(QWidget* parent)
         changeFailureAction(3, index);
         });
 
+
+    this->failure1actionDelay = new QLineEdit();
+    this->failure2actionDelay = new QLineEdit();
+    this->failure3actionDelay = new QLineEdit();
+
+
+    connect(failure1actionDelay, &QLineEdit::textChanged, [this](QString delay) {
+        changeFailureActionDelay(1, delay);
+        });
+    connect(failure2actionDelay, &QLineEdit::textChanged, [this](QString delay) {
+        changeFailureActionDelay(2, delay);
+        });
+    connect(failure3actionDelay, &QLineEdit::textChanged, [this](QString delay) {
+        changeFailureActionDelay(3, delay);
+        });
+    
+
     resetPeriodLineEdit = new QLineEdit;
     resetPeriodLineEdit->setValidator(new QRegExpValidator(QRegExp("[0-9]+")));
     connect(resetPeriodLineEdit, &QLineEdit::textChanged, this, &RecoverySettingsTab::changeResetPeriod);
@@ -47,6 +64,7 @@ RecoverySettingsTab::RecoverySettingsTab(QWidget* parent)
     QLabel* failure1label = new QLabel("First failrure:");
     QLabel* failure2label = new QLabel("Second failrure:");
     QLabel* failure3label = new QLabel("Subsequent failures:");
+    QLabel* failureActionDelayLabel = new QLabel("Delay in ms:");
 
     layout->addWidget(failure1label, 0, 0);
     layout->addWidget(failure2label, 1, 0);
@@ -56,6 +74,14 @@ RecoverySettingsTab::RecoverySettingsTab(QWidget* parent)
     layout->addWidget(failure2actionBox, 1, 1);
     layout->addWidget(failure3actionBox, 2, 1);
 
+    layout->addWidget(failureActionDelayLabel, 0, 2);
+    layout->addWidget(failureActionDelayLabel, 1, 2);
+    layout->addWidget(failureActionDelayLabel, 2, 2);
+
+    layout->addWidget(failure1actionDelay, 0, 3);
+    layout->addWidget(failure2actionDelay, 1, 3);
+    layout->addWidget(failure3actionDelay, 2, 3);
+
     QLabel* resetPerionLabel = new QLabel("Reset fail count after (seconds):");
     QLabel* runProgramLabel = new QLabel("Run program:");
 
@@ -64,7 +90,6 @@ RecoverySettingsTab::RecoverySettingsTab(QWidget* parent)
 
     layout->addWidget(resetPeriodLineEdit, 3, 1);
     layout->addWidget(runProgramLineEdit, 4, 1);
-
 
   /*  QVBoxLayout* mainLayout = new QVBoxLayout;
 
@@ -89,6 +114,24 @@ RecoverySettingsTab::RecoverySettingsTab(QWidget* parent)
 void RecoverySettingsTab::changeResetPeriod(const QString& period) {
     (qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab))->applySettingsBtn->setEnabled(true);
     (qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab))->serviceFailureActions.dwResetPeriod = period.toInt();
+}
+
+
+void RecoverySettingsTab::changeFailureActionDelay(int actionNumber, const QString& delay) {
+    (qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab))->applySettingsBtn->setEnabled(true);
+
+    (qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab))->serviceFailureActions.cActions = 3;
+    switch (actionNumber) {
+    case 1:
+        (qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab))->serviceFailureActions.lpsaAction1.Delay = delay.toInt();
+        break;
+    case 2:
+        (qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab))->serviceFailureActions.lpsaAction2.Delay = delay.toInt();
+        break;
+    case 3:
+        (qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab))->serviceFailureActions.lpsaAction3.Delay = delay.toInt();
+        break;
+    }
 }
 
 
@@ -128,7 +171,15 @@ void RecoverySettingsTab::updateInfo() {
     this->failure2actionBox->setCurrentIndex(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceFailureActions.lpsaAction2.Type);
     this->failure3actionBox->setCurrentIndex(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceFailureActions.lpsaAction3.Type);
 
+    this->failure1actionDelay->setText(QString::number(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceFailureActions.lpsaAction1.Delay));
+    this->failure2actionDelay->setText(QString::number(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceFailureActions.lpsaAction2.Delay));
+    this->failure3actionDelay->setText(QString::number(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceFailureActions.lpsaAction3.Delay));
+
+
     this->resetPeriodLineEdit->setText(QString::number(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceFailureActions.dwResetPeriod));
+
+
+
 
     this->runProgramLineEdit->setText(QString::fromWCharArray(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceFailureActions.lpCommand));
 }
