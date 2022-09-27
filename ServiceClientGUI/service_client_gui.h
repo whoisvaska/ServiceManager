@@ -31,7 +31,6 @@ class ServiceClientGUI : public QMainWindow
 public:
     ServiceClientGUI(QWidget *parent = nullptr);
     ~ServiceClientGUI();
-    QMap<QString, QList<QString>> dependentServices;
 
 private slots:
     void ServiceClientGUI::settingsMenuRequested(const QModelIndex& index);
@@ -44,7 +43,7 @@ private:
     ICreateManager* pICreateManager;
     IManager* pIManager;
 
-    QMenu* menu;
+    QMap<QString, QList<QString>> dependentServices;
 
     QTreeView* servicesTreeView;
     QStandardItemModel* servicesModel;
@@ -52,5 +51,4 @@ private:
     ServiceSettingsTab* serviceSettingsTab;
 
     SAFEARRAY* servicesStatus;
-
 };

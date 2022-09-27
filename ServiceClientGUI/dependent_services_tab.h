@@ -14,7 +14,8 @@ class DependentServicesTab : public QWidget
     Q_OBJECT
 
 public:
-    DependentServicesTab(QWidget* parent);
+    DependentServicesTab(QWidget* parent, QMap<QString, QList<QString>> dependentServices_);
+    ~DependentServicesTab();
 
     void updateInfo();
 
@@ -28,4 +29,6 @@ private:
     QTreeWidget* dependOnServicesTreeWidget;
 
     QWidget* serviceSettingsTab;
+
+    QMap<QString, QList<QString>> dependentServices;
 };

@@ -1,12 +1,13 @@
 #include "general_settings_tab.h"
 
 
-GeneralSettingsTab::GeneralSettingsTab(QWidget* parent)
+GeneralSettingsTab::GeneralSettingsTab(QWidget* parent, QString serviceName_)
     : QWidget(parent)
 {
     //QMessageBox::information(this, "", "GeneralSettingsTab");
 
     this->serviceSettingsTab = parent;
+    this->serviceNameString = serviceName_;
 
     this->startTypeBox = new QComboBox();
     QStringList commands = { "SERVICE_BOOT_START",
@@ -16,15 +17,30 @@ GeneralSettingsTab::GeneralSettingsTab(QWidget* parent)
         "SERVICE_DISABLED"
     };
     startTypeBox->addItems(commands);
-    connect(this->startTypeBox, SIGNAL(currentIndexChanged(int)), SLOT(changeStartType(int)));
+
+    connect(this->startTypeBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this](int newType)
+        {
+            qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->applySettingsBtnCheck(true);
+            qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->changeStartType(newType);
+
+        }
+    );
 
     this->startBtn = new QPushButton();
     this->startBtn->setText("Start");
-    connect(this->startBtn, SIGNAL(clicked()), this, SLOT(startService()));
+    connect(this->startBtn, &QPushButton::clicked, [this]()
+        {
+            qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->startService();
+        }
+    );
 
     this->stopBtn = new QPushButton();
     this->stopBtn->setText("Stop");
-    connect(this->stopBtn, SIGNAL(clicked()), this, SLOT(stopService()));
+    connect(this->stopBtn, &QPushButton::clicked, [this]()
+        {
+            qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->stopService();
+        }
+    );
 
     QGridLayout* layout = new QGridLayout();
 
@@ -81,57 +97,42 @@ GeneralSettingsTab::GeneralSettingsTab(QWidget* parent)
 
 GeneralSettingsTab::~GeneralSettingsTab() 
 {
-    delete startTypeBox;
-    delete startBtn;
-    delete stopBtn;
-    delete serviceName;
-    delete displayName; 
-    delete description; 
-    delete startType;
-    delete currentState;
-}
-
-
-void GeneralSettingsTab::startService() 
-{
-    qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->startService();
-}
-
-void GeneralSettingsTab::stopService() {
-    //return;
-    //this->serviceSettingsTab->stopService();
-    /*QMessageBox::question(this, "Test", "Quit?",
-        QMessageBox::Yes | QMessageBox::No);*/
+    if (this->startTypeBox != NULL) delete (this->startTypeBox);
+    if (this->startBtn != NULL) delete (this->startBtn);
+    if (this->stopBtn != NULL) delete (this->stopBtn);
+    if (this->serviceName != NULL) delete (this->serviceName);
+    if (this->displayName != NULL) delete (this->displayName);
+    if (this->description != NULL) delete (this->description);
+    if (this->startType != NULL) delete (this->startType);
+    if (this->currentState != NULL) delete (this->currentState);
     
-    qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->stopService();
 }
 
-void GeneralSettingsTab::changeStartType(int newIndex) 
-{   
-    qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->applySettingsBtn->setEnabled(true);
-    qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceConfig.dwStartType = newIndex;
-}
 
 
 void GeneralSettingsTab::updateInfo() {
 
-    if (qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceStatus.dwCurrentState == SERVICE_RUNNING) 
+    const SERVICE_STATUS_PROCESS_UDT* serviceStatus = qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->getServiceStatus();
+    const QUERY_SERVICE_CONFIG_UDT* serviceConfig = qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->getServiceConfig();
+    const SERVICE_DESCRIPTION_UDT* serviceDescription = qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->getServiceDescription();
+
+    if (serviceStatus->dwCurrentState == SERVICE_RUNNING) 
     {
         this->startBtn->setDisabled(true);
     }
 
-    if (qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceStatus.dwCurrentState == SERVICE_STOPPED) 
+    if (serviceStatus->dwCurrentState == SERVICE_STOPPED) 
     {
         this->stopBtn->setDisabled(true);
     }
 
-    this->startTypeBox->setCurrentIndex(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceConfig.dwStartType);
+    this->startTypeBox->setCurrentIndex(serviceConfig->dwStartType);
 
-    this->serviceName->setText(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceName);
-    this->displayName->setText(QString::fromWCharArray(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceConfig.lpDisplayName));
-    this->description->setText(QString::fromWCharArray(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceDescription.lpDescription));
+    this->serviceName->setText(serviceNameString);
+    this->displayName->setText(QString::fromWCharArray(serviceConfig->lpDisplayName));
+    this->description->setText(QString::fromWCharArray(serviceDescription->lpDescription));
     
-    this->pathName->setText(QString::fromWCharArray(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceConfig.lpBinaryPathName));
+    this->pathName->setText(QString::fromWCharArray(serviceConfig->lpBinaryPathName));
 
-    this->currentState->setText(currentStateToString(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceStatus.dwCurrentState));
+    this->currentState->setText(currentStateToString(serviceStatus->dwCurrentState));
 }

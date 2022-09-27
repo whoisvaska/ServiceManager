@@ -18,19 +18,13 @@ class RecoverySettingsTab : public QWidget
 
 public:
     RecoverySettingsTab(QWidget* parent);
+    ~RecoverySettingsTab();
 
     void updateInfo();
     QString getRunProgramText();
     QString getRebootMessageText();
 
 private slots:
-    void changeFailureAction(int actionNumber, int newAction);
-    void changeFailureActionDelay(int actionNumber, const QString& delay);
-
-    void changeResetPeriod(const QString& period);
-    void changeRunProgram(const QString& program);
-    void changeFailureActionOnNonCrashFlag(int newState);
-    void changeRebootMessage(const QString& message);
 
 private:
     QComboBox* failure1actionBox;
@@ -44,7 +38,6 @@ private:
 
     //QTextEdit* rebootMsgTextEdit;
     QPlainTextEdit* rebootMsgTextEdit;
-
 
     QLineEdit* failure1actionDelay;
     QLineEdit* failure2actionDelay;

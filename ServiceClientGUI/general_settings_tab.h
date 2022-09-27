@@ -11,19 +11,15 @@ class GeneralSettingsTab : public QWidget
     Q_OBJECT
 
 public:
-    GeneralSettingsTab(QWidget* parent);
+    GeneralSettingsTab(QWidget* parent, QString serviceName);
     ~GeneralSettingsTab();
     void updateInfo();
 
 private slots:
-    void changeStartType(int newIndex);
-
-    void startService();
-    void stopService();
-
 
 private:
-    
+    QString serviceNameString;
+
     QLabel* serviceName;
     QLabel* displayName;
     QLabel* startType;

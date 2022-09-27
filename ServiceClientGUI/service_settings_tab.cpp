@@ -28,22 +28,18 @@ ServiceSettingsTab::ServiceSettingsTab(QString serviceName_, IManager* pIManager
         });
    
 
-    generalSettingsTab = new GeneralSettingsTab(this);
+    generalSettingsTab = new GeneralSettingsTab(this, serviceName);
     tabWidget->addTab(generalSettingsTab, tr("General"));
     
     recoverySettingsTab = new RecoverySettingsTab(this);
     tabWidget->addTab(recoverySettingsTab, tr("Recovery"));
 
-    dependentServicesTab = new DependentServicesTab(this);
+    dependentServicesTab = new DependentServicesTab(this, this->dependentServices);
     tabWidget->addTab(dependentServicesTab, tr("Dependent"));
 
     this->closeSettingsBtn = new QPushButton();
     this->closeSettingsBtn->setText("Close");
-    //this->closeSettingsBtn->setStyle
-    connect(this->closeSettingsBtn, SIGNAL(clicked()), this, SLOT(closeSettings()));
-
-    /*GeneralSettingsTab* generalSettingsTab = new GeneralSettingsTab(this);
-    tabWidget->addTab(generalSettingsTab, tr("General"));*/
+    connect(this->closeSettingsBtn, SIGNAL(clicked()), this, SLOT(this->close()));
 
     QVBoxLayout* mainLayout = new QVBoxLayout;
     mainLayout->addWidget(tabWidget);
@@ -55,26 +51,30 @@ ServiceSettingsTab::ServiceSettingsTab(QString serviceName_, IManager* pIManager
     mainLayout->addWidget(applySettingsBtn);
     setLayout(mainLayout);
     this->setWindowTitle(serviceName);
+
+    this->applySettingsBtn->setDisabled(true);
+
     //this->setFixedSize(640, 480);
 }
 
 
 ServiceSettingsTab::~ServiceSettingsTab() 
 {
-    delete[] this->applySettingsBtn;
-    delete[] this->tabWidget;
-}
+    //QMessageBox::information(this, "ServSet", "");
 
+    if (this->applySettingsBtn != NULL) delete (this->applySettingsBtn);
+    if (this->closeSettingsBtn != NULL) delete (this->closeSettingsBtn);
+    if (this->okSettingsBtn != NULL)    delete (this->okSettingsBtn);
 
-void ServiceSettingsTab::closeSettings() 
-{
-    this->close();
+    if (this->generalSettingsTab != NULL)    delete (this->generalSettingsTab);
+    if (this->recoverySettingsTab != NULL)    delete (this->recoverySettingsTab);
+    if (this->dependentServicesTab != NULL)    delete (this->dependentServicesTab);
+    if (this->tabWidget != NULL)    delete (this->tabWidget);    
 }
 
 
 void ServiceSettingsTab::startService() 
 {
-
     BSTR szServiceName = SysAllocString(serviceName.toStdWString().c_str());
     this->pIManager->startService(szServiceName);
 
@@ -83,7 +83,6 @@ void ServiceSettingsTab::startService()
 
 void ServiceSettingsTab::stopService() 
 {
-
     BSTR szServiceName = SysAllocString(serviceName.toStdWString().c_str());
     this->pIManager->stopService(szServiceName);
 
@@ -112,6 +111,95 @@ void ServiceSettingsTab::updateServiceInfo()
 }
 
 
+void ServiceSettingsTab::changeStartType(int newType)
+{
+    this->serviceConfig.dwStartType = newType;
+}
+
+
+const SERVICE_FAILURE_ACTIONS_UDT* ServiceSettingsTab::getServiceFailureActions()
+{
+    return const_cast<const SERVICE_FAILURE_ACTIONS_UDT*>(&serviceFailureActions);
+}
+
+const QUERY_SERVICE_CONFIG_UDT* ServiceSettingsTab::getServiceConfig()
+{
+    return const_cast<const QUERY_SERVICE_CONFIG_UDT*>(&serviceConfig);
+
+}
+
+const SERVICE_DESCRIPTION_UDT* ServiceSettingsTab::getServiceDescription()
+{
+    return const_cast<const SERVICE_DESCRIPTION_UDT*>(&serviceDescription);
+
+}
+
+
+const SERVICE_STATUS_PROCESS_UDT* ServiceSettingsTab::getServiceStatus()
+{
+    return const_cast<const SERVICE_STATUS_PROCESS_UDT*>(&serviceStatus);
+
+}
+
+
+void ServiceSettingsTab::changeFailureAction(int actionNumber, int newAction)
+{
+   this->applySettingsBtn->setEnabled(true);
+
+    switch (actionNumber) 
+    {
+    case 1:
+        this->serviceFailureActions.lpsaAction1.Type = newAction;
+        break;
+    case 2:
+        this->serviceFailureActions.lpsaAction2.Type = newAction;
+        break;
+    case 3:
+        this->serviceFailureActions.lpsaAction3.Type = newAction;
+        break;
+    }
+}
+
+
+void ServiceSettingsTab::applySettingsBtnCheck(bool check)
+{
+    this->applySettingsBtn->setEnabled(check);
+}
+
+
+
+void ServiceSettingsTab::changeFailureActionDelay(int actionNumber, int delay)
+{
+    this->applySettingsBtn->setEnabled(true);
+
+    this->serviceFailureActions.cActions = 3;
+    switch (actionNumber)
+    {
+    case 1:
+        this->serviceFailureActions.lpsaAction1.Delay = delay;
+        break;
+    case 2:
+        this->serviceFailureActions.lpsaAction2.Delay = delay;
+        break;
+    case 3:
+        this->serviceFailureActions.lpsaAction3.Delay = delay;
+        break;
+    }
+}
+
+
+void ServiceSettingsTab::changeResetPeriod(int period)
+{
+    this->serviceFailureActions.dwResetPeriod = period;
+}
+
+
+void ServiceSettingsTab::changeFailureActionOnNonCrashFlag(int newState)
+{
+    this->serviceFailureActions.fFailureActionsOnNonCrashFailures = (bool)newState;
+}
+
+
 void ServiceSettingsTab::setServiceConfig(int closeTab) {
     BSTR szServiceName = SysAllocString(serviceName.toStdWString().c_str());
 
@@ -137,7 +225,7 @@ void ServiceSettingsTab::setServiceConfig(int closeTab) {
 
     if (closeTab == 1) 
     {
-        this->closeSettings();
+        this->close();
     }
 
     return;

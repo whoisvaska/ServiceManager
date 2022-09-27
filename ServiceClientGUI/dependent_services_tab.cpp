@@ -1,19 +1,15 @@
 #include "dependent_services_tab.h"
 
-DependentServicesTab::DependentServicesTab(QWidget* parent)
+DependentServicesTab::DependentServicesTab(QWidget* parent, QMap<QString, QList<QString>> dependentServices_)
     : QWidget(parent)
 {
 
-    //QMessageBox::information(this, "", "DependentServicesTab");
-
     this->serviceSettingsTab = (parent);
-
+    this->dependentServices = dependentServices_;
 
     this->dependOnServicesTreeWidget = new QTreeWidget();
     dependOnServicesTreeWidget->setHeaderLabel(QString("This service depends on the following system components"));
     connect(this->dependOnServicesTreeWidget, SIGNAL(clicked(const QModelIndex&)), this, SLOT(expandDependOn(const QModelIndex&)));
-
-
 
     this->dependedServicesTreeWidget = new QTreeWidget();
     dependedServicesTreeWidget->setHeaderLabel(QString("The following system components depend on this service"));
@@ -29,16 +25,18 @@ DependentServicesTab::DependentServicesTab(QWidget* parent)
 }
 
 
+
+DependentServicesTab::~DependentServicesTab()
+{
+    if (this->dependedServicesTreeWidget != NULL) delete (this->dependedServicesTreeWidget);
+    if (this->dependOnServicesTreeWidget != NULL) delete (this->dependOnServicesTreeWidget);
+}
+
+
 void DependentServicesTab::expandDependent(const QModelIndex& index)
 {   
-    //index.column();
-    //QTreeWidgetItem* treeItem = this->dependedServicesTreeWidget->findItems(index.data().toString(), Qt::MatchExactly)[0];
-    
     QTreeWidgetItem* treeItem = dependedServicesTreeWidget->currentItem();
 
-    //QMessageBox::information(this, "", (dependedServicesTreeWidget->currentItem()->text(0)));
-
-    
     if (treeItem->isExpanded() == true)
     {
         treeItem->setExpanded(false);
@@ -49,7 +47,7 @@ void DependentServicesTab::expandDependent(const QModelIndex& index)
 
     ServiceSettingsTab* sst = qobject_cast<ServiceSettingsTab*>(serviceSettingsTab);
 
-    QList<QString> dependentServices = sst->dependentServices[displayName];
+    QList<QString> dependentServices = this->dependentServices[displayName];
 
     for (auto v : dependentServices)
     {
@@ -66,13 +64,7 @@ void DependentServicesTab::expandDependent(const QModelIndex& index)
 
 void DependentServicesTab::expandDependOn(const QModelIndex& index)
 {
-    //index.column();
-    //QTreeWidgetItem* treeItem = this->dependedServicesTreeWidget->findItems(index.data().toString(), Qt::MatchExactly)[0];
-
     QTreeWidgetItem* treeItem = dependOnServicesTreeWidget->currentItem();
-
-    //QMessageBox::information(this, "", (dependedServicesTreeWidget->currentItem()->text(0)));
-
 
     if (treeItem->isExpanded() == true)
     {
@@ -92,7 +84,7 @@ void DependentServicesTab::expandDependOn(const QModelIndex& index)
 
     QMap<QString, QList<QString>>::iterator it;
 
-    for (it = sst->dependentServices.begin(); it != sst->dependentServices.end(); ++it)
+    for (it = this->dependentServices.begin(); it != this->dependentServices.end(); ++it)
     {
         if (it.value().indexOf(displayName) >= 0)
         {
@@ -115,40 +107,29 @@ void DependentServicesTab::expandDependOn(const QModelIndex& index)
 
 void DependentServicesTab::updateInfo()
 {
-    BSTR szServiceName = SysAllocString(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceName.toStdWString().c_str());
-    QString displayName = QString::fromWCharArray(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceConfig.lpDisplayName);
-    //serviceSettingsTab->serviceClientGUI.
+    const QUERY_SERVICE_CONFIG_UDT* serviceConfig = qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->getServiceConfig();
 
-    //QMessageBox::information(this, "aaaa", displayName);
-
-    ServiceSettingsTab* sst = qobject_cast<ServiceSettingsTab*>(serviceSettingsTab);
-    //ServiceClientGUI* scg = qobject_cast<ServiceClientGUI*>(sst->serviceClientGUI);
-
-    QList<QString> dependentServices = sst->dependentServices[displayName];
+    QString displayName = QString::fromWCharArray(serviceConfig->lpDisplayName);
+    
+    QList<QString> dependentServices = this->dependentServices[displayName];
 
     for (auto v : dependentServices)
     {
         QTreeWidgetItem* twi = new QTreeWidgetItem(dependedServicesTreeWidget);
-
-        //QMessageBox::information(this, "", v);
-
         twi->setText(0, v);
-        
     }
-
 
     QList<QString> dependOnServices;
 
     QMap<QString, QList<QString>>::iterator it;
 
-    for (it = sst->dependentServices.begin(); it != sst->dependentServices.end(); ++it)
+    for (it = this->dependentServices.begin(); it != this->dependentServices.end(); ++it)
     {
         if (it.value().indexOf(displayName) >= 0)
         {
             dependOnServices.push_back(it.key());
         }
     }
-
 
     for (auto v : dependOnServices)
     {

@@ -8,6 +8,8 @@ ServiceClientGUI::ServiceClientGUI(QWidget *parent)
     //this->toolBa`
     //delete ui.mainToolBar;
   
+    this->serviceSettingsTab = NULL;
+
     QShortcut* shortcut = new QShortcut(QKeySequence(Qt::Key_F5), this, SLOT(updateServices()));
     shortcut->setAutoRepeat(false);
 
@@ -178,6 +180,8 @@ void ServiceClientGUI::initInterfaces()
 
 ServiceClientGUI::~ServiceClientGUI()
 {
+    //QMessageBox::information(this, "Destructor", "Destructor");
+
     if (this->pICF) 
     {
         this->pICF->Release();
@@ -189,6 +193,22 @@ ServiceClientGUI::~ServiceClientGUI()
     if (this->pIManager) 
     {
         this->pIManager->Release();
+    }
+
+    //QMessageBox::information(this, "Destructor2", "Destructor");
+
+    if (this->servicesTreeView)
+    {
+        delete (this->servicesTreeView);
+    }
+    if (this->servicesModel)
+    {
+        delete (this->servicesModel);
+    }
+
+    if (this->serviceSettingsTab != NULL)
+    {
+        delete (this->serviceSettingsTab);
     }
 
     return;

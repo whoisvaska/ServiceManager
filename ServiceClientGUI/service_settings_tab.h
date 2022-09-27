@@ -35,11 +35,30 @@ public:
 
     /*сделать аксессоры*/
 
+    const SERVICE_FAILURE_ACTIONS_UDT* getServiceFailureActions();
+    const SERVICE_STATUS_PROCESS_UDT* getServiceStatus();
+    const QUERY_SERVICE_CONFIG_UDT* getServiceConfig();
+    const SERVICE_DESCRIPTION_UDT* getServiceDescription();
+    void stopService();
+    void startService();
+
+    void setServiceConfig(int closeTab);
+    
+    /*general*/
+    void changeStartType(int newType);
+
+    /*recovery*/
+    void changeFailureAction(int actionNumber, int newAction);
+    void changeFailureActionDelay(int actionNumber, int newAction);
+    void applySettingsBtnCheck(bool check);
+    void changeResetPeriod(int period);
+    void changeFailureActionOnNonCrashFlag(int newState);
+
+private slots:
+
+private:
+
     QString serviceName;
-    SERVICE_STATUS_PROCESS_UDT serviceStatus;
-    QUERY_SERVICE_CONFIG_UDT serviceConfig;
-    SERVICE_FAILURE_ACTIONS_UDT serviceFailureActions;
-    SERVICE_DESCRIPTION_UDT serviceDescription;
 
     QPushButton* applySettingsBtn;
     QPushButton* closeSettingsBtn;
@@ -47,17 +66,14 @@ public:
 
     QMap<QString, QList<QString>> dependentServices;
 
-    void stopService();
-    void startService();
-    void setServiceConfig(int closeTab);
-
-private slots:
-    void closeSettings();
-
-private:
     GeneralSettingsTab* generalSettingsTab;
     RecoverySettingsTab* recoverySettingsTab;
     DependentServicesTab* dependentServicesTab;
+
+    SERVICE_STATUS_PROCESS_UDT serviceStatus;
+    QUERY_SERVICE_CONFIG_UDT serviceConfig;
+    SERVICE_FAILURE_ACTIONS_UDT serviceFailureActions;
+    SERVICE_DESCRIPTION_UDT serviceDescription;
 
     QTabWidget* tabWidget;
     IManager* pIManager;
