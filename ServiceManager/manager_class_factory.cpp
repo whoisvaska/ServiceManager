@@ -10,9 +10,9 @@ ManagerClassFactory::ManagerClassFactory()
 
 ManagerClassFactory::~ManagerClassFactory()
 {
-	MessageBox(NULL,
+	/*MessageBox(NULL,
 		"ManagerClassFactory is being distructed. Make sure you see this message, if not, you might have memory leak!",
-		"Destructor", MB_OK | MB_SETFOREGROUND);
+		"Destructor", MB_OK | MB_SETFOREGROUND);*/
 }
 
 STDMETHODIMP_(ULONG) ManagerClassFactory::AddRef()

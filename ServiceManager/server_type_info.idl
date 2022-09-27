@@ -59,6 +59,7 @@ library ServiceLib
         struct SC_ACTION_UDT lpsaAction3;
         BSTR     lpRebootMsg;
         BSTR     lpCommand;
+        int      fFailureActionsOnNonCrashFailures;
     };
 
     struct SERVICE_DESCRIPTION_UDT {
@@ -103,7 +104,7 @@ library ServiceLib
     importlib("stdole32.tlb");
 
     
-    [uuid(53BA7C94-C5BC-42D8-933A-BB08F220846E)]
+    [uuid(53BA7C94-C5BC-42D8-933A-BB08F220849E)]
     coclass ServiceManager
     {
         [default] interface ICreateManager;

@@ -4,8 +4,6 @@ RecoverySettingsTab::RecoverySettingsTab(QWidget* parent)
     : QWidget(parent)
 {
 
-    //QMessageBox::information(this, "", "RecoverySettingsTab");
-
     this->serviceSettingsTab = (parent);
 
 
@@ -13,17 +11,20 @@ RecoverySettingsTab::RecoverySettingsTab(QWidget* parent)
     this->failure2actionBox = new QComboBox();
     this->failure3actionBox = new QComboBox();
 
+    this->rebootMsgTextEdit = new QPlainTextEdit();
+
+
     QStringList commands = {"SC_ACTION_NONE",
         "SC_ACTION_RESTART",
         "SC_ACTION_REBOOT",
         "SC_ACTION_RUN_COMMAND"
     };
 
+
     failure1actionBox->addItems(commands);
     failure2actionBox->addItems(commands);
     failure3actionBox->addItems(commands);
 
-    //connect(failure1actionBox, &SIGNAL(currentIndexChanged(int)), [this, failure1actionBox]
     connect(failure1actionBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this](int index) {
         changeFailureAction(1, index);
         });
@@ -50,6 +51,8 @@ RecoverySettingsTab::RecoverySettingsTab(QWidget* parent)
         changeFailureActionDelay(3, delay);
         });
     
+    this->failureActionOnNonCrashCheckBox = new QCheckBox();
+    connect(failureActionOnNonCrashCheckBox, &QCheckBox::stateChanged, this, &RecoverySettingsTab::changeFailureActionOnNonCrashFlag);
 
     resetPeriodLineEdit = new QLineEdit;
     resetPeriodLineEdit->setValidator(new QRegExpValidator(QRegExp("[0-9]+")));
@@ -83,13 +86,21 @@ RecoverySettingsTab::RecoverySettingsTab(QWidget* parent)
     layout->addWidget(failure3actionDelay, 2, 3);
 
     QLabel* resetPerionLabel = new QLabel("Reset fail count after (seconds):");
+    QLabel* failureOnNonCrashLabel = new QLabel("Enable actions for stops with errors");
     QLabel* runProgramLabel = new QLabel("Run program:");
+    QLabel* rebootMsgLabel = new QLabel("Before restart, send this message to computers on the network:");
 
     layout->addWidget(resetPerionLabel, 3, 0);
-    layout->addWidget(runProgramLabel, 4, 0);
-
     layout->addWidget(resetPeriodLineEdit, 3, 1);
-    layout->addWidget(runProgramLineEdit, 4, 1);
+
+    layout->addWidget(failureOnNonCrashLabel, 4, 0);
+    layout->addWidget(failureActionOnNonCrashCheckBox, 4, 1);
+
+    layout->addWidget(runProgramLabel, 5, 0);
+    layout->addWidget(runProgramLineEdit, 5, 1);
+
+    layout->addWidget(rebootMsgLabel, 6, 0);
+    layout->addWidget(rebootMsgTextEdit, 6, 1);
 
   /*  QVBoxLayout* mainLayout = new QVBoxLayout;
 
@@ -110,18 +121,26 @@ RecoverySettingsTab::RecoverySettingsTab(QWidget* parent)
 }
 
 
+void RecoverySettingsTab::changeFailureActionOnNonCrashFlag(int newState)
+{
+    (qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab))->serviceFailureActions.fFailureActionsOnNonCrashFailures = (bool)newState;
+}
 
-void RecoverySettingsTab::changeResetPeriod(const QString& period) {
+
+void RecoverySettingsTab::changeResetPeriod(const QString& period) 
+{
     (qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab))->applySettingsBtn->setEnabled(true);
     (qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab))->serviceFailureActions.dwResetPeriod = period.toInt();
 }
 
 
-void RecoverySettingsTab::changeFailureActionDelay(int actionNumber, const QString& delay) {
+void RecoverySettingsTab::changeFailureActionDelay(int actionNumber, const QString& delay) 
+{
     (qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab))->applySettingsBtn->setEnabled(true);
 
     (qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab))->serviceFailureActions.cActions = 3;
-    switch (actionNumber) {
+    switch (actionNumber) 
+    {
     case 1:
         (qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab))->serviceFailureActions.lpsaAction1.Delay = delay.toInt();
         break;
@@ -135,20 +154,46 @@ void RecoverySettingsTab::changeFailureActionDelay(int actionNumber, const QStri
 }
 
 
-void RecoverySettingsTab::changeRunProgram(const QString& program) {
+QString RecoverySettingsTab::getRebootMessageText()
+{
+    return this->rebootMsgTextEdit->toPlainText();
+}
+
+QString RecoverySettingsTab::getRunProgramText()
+{
+    return this->runProgramLineEdit->text();
+}
+
+void RecoverySettingsTab::changeRebootMessage(const QString& message)
+{
 
     (qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab))->applySettingsBtn->setEnabled(true);
-    
-    if ((qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab))->serviceFailureActions.lpCommand != NULL) {
-        SysFreeString(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceFailureActions.lpCommand);
-    }
 
-    (qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab))->serviceFailureActions.lpCommand = SysAllocString(program.toStdWString().c_str());
+    //if ((qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab))->serviceFailureActions.lpCommand != NULL) {
+        //SysFreeString(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceFailureActions.lpCommand);
+    //}
+
+    //(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab))->serviceFailureActions.lpCommand = SysAllocString(program.toStdWString().c_str());
 
 }
 
 
-void RecoverySettingsTab::changeFailureAction(int actionNumber, int newAction) {
+void RecoverySettingsTab::changeRunProgram(const QString& program) 
+{
+
+    (qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab))->applySettingsBtn->setEnabled(true);
+    
+    /*if ((qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab))->serviceFailureActions.lpCommand != NULL) {
+        SysFreeString(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceFailureActions.lpCommand);
+    }
+
+    (qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab))->serviceFailureActions.lpCommand = SysAllocString(program.toStdWString().c_str());*/
+
+}
+
+
+void RecoverySettingsTab::changeFailureAction(int actionNumber, int newAction) 
+{
     (qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab))->applySettingsBtn->setEnabled(true);
 
     switch (actionNumber) {
@@ -175,11 +220,12 @@ void RecoverySettingsTab::updateInfo() {
     this->failure2actionDelay->setText(QString::number(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceFailureActions.lpsaAction2.Delay));
     this->failure3actionDelay->setText(QString::number(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceFailureActions.lpsaAction3.Delay));
 
+    this->failureActionOnNonCrashCheckBox->setChecked(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceFailureActions.fFailureActionsOnNonCrashFailures);
 
     this->resetPeriodLineEdit->setText(QString::number(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceFailureActions.dwResetPeriod));
 
 
-
+    this->rebootMsgTextEdit->setPlainText(QString::fromWCharArray(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceFailureActions.lpRebootMsg));
 
     this->runProgramLineEdit->setText(QString::fromWCharArray(qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceFailureActions.lpCommand));
 }

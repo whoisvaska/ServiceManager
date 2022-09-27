@@ -1,7 +1,7 @@
 #include "value_to_str.h"
 
 QString serviceTypeToString(unsigned long dwServiceType) {
-    QString serviceType;
+    QString serviceType = "";
 
     switch (dwServiceType) {
     case 0x00000002:
@@ -22,7 +22,7 @@ QString serviceTypeToString(unsigned long dwServiceType) {
 }
 
 QString currentStateToString(unsigned long dwCurrentState) {
-    QString currentState;
+    QString currentState = "";
 
     switch (dwCurrentState) {
     case 0x00000005:

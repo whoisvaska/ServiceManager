@@ -29,7 +29,6 @@ private slots:
     void setServiceConfig();
 
 private:
-    //Ui::ServiceSettingsWndClass ui;
 
     void updateServiceInfo();
 

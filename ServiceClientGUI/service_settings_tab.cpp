@@ -3,14 +3,13 @@
 ServiceSettingsTab::ServiceSettingsTab(QString serviceName_, IManager* pIManager_, QMap<QString, QList<QString>> dependentServices_, QWidget* parent)
     : QDialog(parent)
 {
-    //this->setStyle(QFact)
     //QMessageBox::information(this, "", "ServiceSettingsTab");
 
     this->dependentServices = dependentServices_;
-    //this->serviceClientGUI = (parent);
 
     this->pIManager = pIManager_;
     this->serviceName = serviceName_;
+
     this->updateServiceInfo();
 
     tabWidget = new QTabWidget;
@@ -23,19 +22,19 @@ ServiceSettingsTab::ServiceSettingsTab(QString serviceName_, IManager* pIManager
     
     this->applySettingsBtn = new QPushButton();
     this->applySettingsBtn->setText("Apply");
-    this->applySettingsBtn->setEnabled(false);
+    this->applySettingsBtn->setDisabled(true);
     connect(applySettingsBtn, &QPushButton::clicked, [this]() {
         this->setServiceConfig(false);
         });
    
 
-    GeneralSettingsTab* generalSettingsTab = new GeneralSettingsTab(this);
+    generalSettingsTab = new GeneralSettingsTab(this);
     tabWidget->addTab(generalSettingsTab, tr("General"));
     
-    RecoverySettingsTab* recoverySettingsTab = new RecoverySettingsTab(this);
+    recoverySettingsTab = new RecoverySettingsTab(this);
     tabWidget->addTab(recoverySettingsTab, tr("Recovery"));
 
-    DependentServicesTab* dependentServicesTab = new DependentServicesTab(this);
+    dependentServicesTab = new DependentServicesTab(this);
     tabWidget->addTab(dependentServicesTab, tr("Dependent"));
 
     this->closeSettingsBtn = new QPushButton();
@@ -60,22 +59,21 @@ ServiceSettingsTab::ServiceSettingsTab(QString serviceName_, IManager* pIManager
 }
 
 
-ServiceSettingsTab::~ServiceSettingsTab() {
-
+ServiceSettingsTab::~ServiceSettingsTab() 
+{
     delete[] this->applySettingsBtn;
     delete[] this->tabWidget;
 }
 
 
-void ServiceSettingsTab::closeSettings() {
-    QMessageBox::question(this, "Test", "Quit?",
-        QMessageBox::Yes | QMessageBox::No);
-    
+void ServiceSettingsTab::closeSettings() 
+{
     this->close();
 }
 
 
-void ServiceSettingsTab::startService() {
+void ServiceSettingsTab::startService() 
+{
 
     BSTR szServiceName = SysAllocString(serviceName.toStdWString().c_str());
     this->pIManager->startService(szServiceName);
@@ -83,7 +81,8 @@ void ServiceSettingsTab::startService() {
     return;
 }
 
-void ServiceSettingsTab::stopService() {
+void ServiceSettingsTab::stopService() 
+{
 
     BSTR szServiceName = SysAllocString(serviceName.toStdWString().c_str());
     this->pIManager->stopService(szServiceName);
@@ -91,7 +90,8 @@ void ServiceSettingsTab::stopService() {
     return;
 }
 
-void ServiceSettingsTab::updateServiceInfo() {
+void ServiceSettingsTab::updateServiceInfo() 
+{
     BSTR szServiceName = SysAllocString(this->serviceName.toStdWString().c_str());
 
     this->pIManager->queryServiceInfo(szServiceName, &this->serviceStatus);
@@ -99,6 +99,12 @@ void ServiceSettingsTab::updateServiceInfo() {
     this->pIManager->queryServiceConfigSM(szServiceName, &this->serviceConfig);
 
     this->pIManager->queryServiceFailureActionsSM(szServiceName, &this->serviceFailureActions);
+
+    /*QMessageBox::information(
+       this,
+       "setServiceConfig",
+       "setServiceConfig",
+       QMessageBox::Ok);*/
 
     this->pIManager->queryServiceDescriptionSM(szServiceName, &this->serviceDescription);
 
@@ -109,11 +115,19 @@ void ServiceSettingsTab::updateServiceInfo() {
 void ServiceSettingsTab::setServiceConfig(int closeTab) {
     BSTR szServiceName = SysAllocString(serviceName.toStdWString().c_str());
 
-  /*  QMessageBox::information(
-        this,
-        "setServiceConfig",
-        "setServiceConfig",
-        QMessageBox::Ok);*/
+    if (serviceFailureActions.lpRebootMsg != NULL)
+    {
+        SysFreeString(serviceFailureActions.lpRebootMsg);
+    }
+
+    if (serviceFailureActions.lpCommand != NULL)
+    {
+        SysFreeString(serviceFailureActions.lpCommand);
+    }
+
+    this->serviceFailureActions.lpRebootMsg = SysAllocString(this->recoverySettingsTab->getRebootMessageText().toStdWString().c_str());
+    this->serviceFailureActions.lpCommand = SysAllocString(this->recoverySettingsTab->getRunProgramText().toStdWString().c_str());
+ 
 
     this->pIManager->changeServiceConfigSM(szServiceName, &this->serviceConfig);
 
@@ -121,7 +135,8 @@ void ServiceSettingsTab::setServiceConfig(int closeTab) {
 
     this->applySettingsBtn->setDisabled(true);
 
-    if (closeTab == 1) {
+    if (closeTab == 1) 
+    {
         this->closeSettings();
     }
 

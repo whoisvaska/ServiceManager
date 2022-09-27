@@ -7,12 +7,13 @@
 #include <QStandardItemModel>
 #include <qmessagebox.h>
 #include <qlist.h>
+#include <qshortcut.h>
 
 #include "qsizepolicy.h"
 
 #include "service_settings_tab.h"
 //#include "service_settings_wnd.h"
-#include "ui_serviceclientgui.h"
+//#include "ui_serviceclientgui.h"
 
 //#include "../ServiceManager/server_type_info_i.c"
 //#include "../ServiceManager/server_type_info_h.h"
@@ -34,18 +35,16 @@ public:
 
 private slots:
     void ServiceClientGUI::settingsMenuRequested(const QModelIndex& index);
-
-private:
-    Ui::ServiceClientGUIClass ui;
-    
-    void initInterfaces();
     void updateServices();
 
+private:
+    void initInterfaces();
 
     IClassFactory* pICF;
     ICreateManager* pICreateManager;
     IManager* pIManager;
 
+    QMenu* menu;
 
     QTreeView* servicesTreeView;
     QStandardItemModel* servicesModel;

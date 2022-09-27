@@ -14,8 +14,13 @@
 #include "recovery_settings_tab.h"
 #include "dependent_services_tab.h"
 
+
 #include "../ServiceManager/server_type_info_h.h"
 #include "../ServiceManager/server_type_info_i.c"
+
+class GeneralSettingsTab;
+class RecoverySettingsTab;
+class DependentServicesTab;
 
 
 class ServiceSettingsTab : public QDialog
@@ -27,6 +32,8 @@ public:
     ~ServiceSettingsTab();
 
     void updateServiceInfo();
+
+    /*сделать аксессоры*/
 
     QString serviceName;
     SERVICE_STATUS_PROCESS_UDT serviceStatus;
@@ -44,12 +51,14 @@ public:
     void startService();
     void setServiceConfig(int closeTab);
 
-
 private slots:
     void closeSettings();
-private:
-    QTabWidget* tabWidget;
-    //QPushButton* buttonBox;
-    IManager* pIManager;
 
+private:
+    GeneralSettingsTab* generalSettingsTab;
+    RecoverySettingsTab* recoverySettingsTab;
+    DependentServicesTab* dependentServicesTab;
+
+    QTabWidget* tabWidget;
+    IManager* pIManager;
 };

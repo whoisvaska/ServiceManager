@@ -79,8 +79,8 @@ GeneralSettingsTab::GeneralSettingsTab(QWidget* parent)
 }
 
 
-GeneralSettingsTab::~GeneralSettingsTab() {
-
+GeneralSettingsTab::~GeneralSettingsTab() 
+{
     delete startTypeBox;
     delete startBtn;
     delete stopBtn;
@@ -92,7 +92,8 @@ GeneralSettingsTab::~GeneralSettingsTab() {
 }
 
 
-void GeneralSettingsTab::startService() {
+void GeneralSettingsTab::startService() 
+{
     qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->startService();
 }
 
@@ -114,11 +115,13 @@ void GeneralSettingsTab::changeStartType(int newIndex)
 
 void GeneralSettingsTab::updateInfo() {
 
-    if (qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceStatus.dwCurrentState == SERVICE_RUNNING) {
+    if (qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceStatus.dwCurrentState == SERVICE_RUNNING) 
+    {
         this->startBtn->setDisabled(true);
     }
 
-    if (qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceStatus.dwCurrentState == SERVICE_STOPPED) {
+    if (qobject_cast<ServiceSettingsTab*>(this->serviceSettingsTab)->serviceStatus.dwCurrentState == SERVICE_STOPPED) 
+    {
         this->stopBtn->setDisabled(true);
     }
 

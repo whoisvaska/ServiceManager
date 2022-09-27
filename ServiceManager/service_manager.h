@@ -1,10 +1,12 @@
 #if !defined ServiceManager_H_
 #define ServiceManager_H_
 
-
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
+
+//#define DEBUG 
+//#undef DEBUG
 
 #include "../ServiceManager/server_type_info_h.h"
 #include "service_struct.h"
@@ -41,7 +43,6 @@ public:
 
 	STDMETHODIMP changeServiceConfigSM(BSTR serviceName, struct QUERY_SERVICE_CONFIG_UDT* serviceConfig);
 	
-
 private:
 	DWORD	m_refCount;
 };
