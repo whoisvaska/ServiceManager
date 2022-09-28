@@ -1,0 +1,116 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [],
+      "tool": {
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.29.30143.0",
+          "informationUri": "https://aka.ms/cpp/ca"
+        }
+      },
+      "invocations": [
+        {
+          "commandLine": "\"D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX86\\x86\\c1xx.dll\" -ACf{1F7B090C-16DB-4822-966A-A93D26ED4681} -ACpmspft140.dll -Alint -D_PREFAST_ -D_AST_FE_ -Analyze -zm0x0101D1C0 -il C:\\Users\\vaska\\AppData\\Local\\Temp\\_CL_d0d395c4ast -typedil -f manager_class_factory.cpp -Ze -D_MSC_EXTENSIONS -Zp8 -Gs -pc \\:/ -D_MSC_VER=1929 -D_MSC_FULL_VER=192930143 -D_MSC_BUILD=0 -D_WIN32 -D_M_IX86=600 -D_M_IX86_FP=2 -GR -D_CPPRTTI -nologo -W 3 -diagnostics:column -D_GUARDOVERFLOW_CRT_ALLOCATORS=1 -GF -Og -Ot -Oi -ltcg -DCODE_ANALYSIS -DWIN32 -DNDEBUG -D_CONSOLE -D_MBCS -D_CRT_SECURE_NO_WARNINGS -EHs -D_CPPUNWIND -EHc -MD -D_MT -D_DLL -GS -D_M_FP_PRECISE -permissive- -Zc:wchar_t -Zc:forScope -FoRelease\\manager_class_factory.obj -FdRelease\\vc142.pdb -external:W 3 -Gd -analyze:projectdirectory D:\\Projects\\com-service\\src\\Service\\ServiceManager -analyze:rulesetdirectory ;D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\Team Tools\\Static Analysis Tools\\\\Rule Sets; -analyze:ruleset D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\Team Tools\\Static Analysis Tools\\Rule Sets\\NativeRecommendedRules.ruleset -analyze:quiet -analyze:plugin D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX86\\x86\\EspXEngine.dll -FC -errorreport:prompt -I D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\include -I D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\atlmfc\\include -I D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\include -I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\ucrt -I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\um -I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\shared -I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\winrt -I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\cppwinrt -I D:\\Projects\\com-service\\src\\Service\\ServiceManager\\Include\\um -external:I D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\include -I D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\include -external:I D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\atlmfc\\include -I D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\atlmfc\\include -external:I D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\include -I D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\include -external:I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\ucrt -I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\ucrt -external:I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\um -I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\um -external:I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\shared -I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\shared -external:I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\winrt -I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\winrt -external:I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\cppwinrt -I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\cppwinrt -external:I D:\\Projects\\com-service\\src\\Service\\ServiceManager\\Include\\um -I D:\\Projects\\com-service\\src\\Service\\ServiceManager\\Include\\um",
+          "executionSuccessful": true
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///D:/Projects/com-service/src/Service/ServiceManager/service_manager.cpp"
+          },
+          "roles": [
+            "analysisTarget",
+            "resultFile"
+          ],
+          "hashes": {
+            "md5": "3554ff28e7063234b244a71703287a5e"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/projects/com-service/src/service/servicemanager/service_manager.h"
+          },
+          "hashes": {
+            "md5": "d2255580b0879bf6f0819f614c752a21"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/projects/com-service/src/service/servicemanager/server_type_info_h.h"
+          },
+          "hashes": {
+            "md5": "108f24a7a20c31e325b8f02c883d6d00"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/projects/com-service/src/service/servicemanager/service_struct.h"
+          },
+          "hashes": {
+            "md5": "efcb2b00949e0cf23ea8543e144ebcf4"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/projects/com-service/src/service/servicemanager/server_type_info_i.c"
+          },
+          "hashes": {
+            "md5": "8d1cb580e1c742d967069779649ecc56"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/projects/com-service/src/service/servicemanager/service_struct_i.c"
+          },
+          "hashes": {
+            "md5": "692ebead538b039bbdd4c623cbb001e6"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/projects/com-service/src/service/servicemanager/locks.h"
+          },
+          "hashes": {
+            "md5": "2c15e875b3fab9a0966e2d5dcfa248a2"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///D:/Projects/com-service/src/Service/ServiceManager/server.cpp"
+          },
+          "roles": [
+            "analysisTarget",
+            "resultFile"
+          ],
+          "hashes": {
+            "md5": "46387bc4372ed6a79690ea065b426d41"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/projects/com-service/src/service/servicemanager/manager_class_factory.h"
+          },
+          "hashes": {
+            "md5": "8819a701e50ac6ab15883ab308dde77e"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/projects/com-service/src/service/servicemanager/manager_class_factory.cpp"
+          },
+          "roles": [
+            "analysisTarget"
+          ],
+          "hashes": {
+            "md5": "faa49b60f2026bc3e1a67be07cb80469"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [],
+      "tool": {
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.29.30143.0",
+          "informationUri": "https://aka.ms/cpp/ca"
+        }
+      },
+      "invocations": [
+        {
+          "commandLine": "\"D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX86\\x86\\c1xx.dll\" -ACf{1F7B090C-16DB-4822-966A-A93D26ED4681} -ACpmspft140.dll -Alint -D_PREFAST_ -D_AST_FE_ -Analyze -zm0x0101D1C0 -il C:\\Users\\vaska\\AppData\\Local\\Temp\\_CL_03431544ast -typedil -f service_settings_wnd.cpp -Ze -D_MSC_EXTENSIONS -Zp8 -Gs -pc \\:/ -D_MSC_VER=1929 -D_MSC_FULL_VER=192930143 -D_MSC_BUILD=0 -D_WIN32 -D_M_IX86=600 -D_M_IX86_FP=2 -GR -D_CPPRTTI -I Release\\uic -I Release\\moc -I D:\\Projects\\com-service\\src\\Service\\ServiceClientGUI\\Release\\qmake\\temp -I D:\\ProgramFiles\\Qt\\5.15.2\\msvc2019\\include -I D:\\ProgramFiles\\Qt\\5.15.2\\msvc2019\\include\\QtWidgets -I D:\\ProgramFiles\\Qt\\5.15.2\\msvc2019\\include\\QtGui -I D:\\ProgramFiles\\Qt\\5.15.2\\msvc2019\\include\\QtANGLE -I D:\\ProgramFiles\\Qt\\5.15.2\\msvc2019\\include\\QtCore -I D:\\Projects\\com-service\\src\\Service\\ServiceClientGUI\\Release\\qmake\\temp -I /include -I D:\\ProgramFiles\\Qt\\5.15.2\\msvc2019\\mkspecs\\win32-msvc -I Release\\moc -I Release\\uic -nologo -W 1 -diagnostics:column -GF -Og -Oi -Ot -DCODE_ANALYSIS -D_WINDOWS -DUNICODE -D_UNICODE -DWIN32 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -DNDEBUG -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -EHs -D_CPPUNWIND -EHc -MD -D_MT -D_DLL -GS -D_M_FP_PRECISE -Zc:wchar_t -Zc:forScope -FoRelease\\service_settings_wnd.obj -FdRelease\\vc142.pdb -external:W 1 -Gd -analyze:projectdirectory D:\\Projects\\com-service\\src\\Service\\ServiceClientGUI -analyze:rulesetdirectory ;D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\Team Tools\\Static Analysis Tools\\\\Rule Sets; -analyze:ruleset D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\Team Tools\\Static Analysis Tools\\Rule Sets\\NativeRecommendedRules.ruleset -analyze:quiet -analyze:plugin D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX86\\x86\\EspXEngine.dll -FC -errorreport:prompt -Zc:rvalueCast -Zc:strictStrings -Zc:referenceBinding -Zc:__cplusplus -I D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\include -I D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\atlmfc\\include -I D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\include -I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\ucrt -I D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\UnitTest\\include -I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\um -I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\shared -I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\winrt -I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\cppwinrt -I Include\\um -external:I D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\include -I D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\include -external:I D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\atlmfc\\include -I D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\atlmfc\\include -external:I D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\include -I D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\include -external:I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\ucrt -I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\ucrt -external:I D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\UnitTest\\include -I D:\\ProgramFiles\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\UnitTest\\include -external:I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\um -I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\um -external:I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\shared -I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\shared -external:I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\winrt -I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\winrt -external:I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\cppwinrt -I D:\\Windows Kits\\10\\Include\\10.0.19041.0\\cppwinrt -external:I Include\\um -I Include\\um -MPdiagMutex 00000000000009B4",
+          "executionSuccessful": true
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///d:/projects/com-service/src/service/serviceclientgui/service_settings_wnd.cpp"
+          },
+          "roles": [
+            "analysisTarget"
+          ],
+          "hashes": {
+            "md5": "6af8559a5cbf304e49367f29692c88ac"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/projects/com-service/src/service/serviceclientgui/service_settings_wnd.h"
+          },
+          "hashes": {
+            "md5": "b8201952716d155574d12443733fe0d4"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/projects/com-service/src/service/servicemanager/server_type_info_h.h"
+          },
+          "hashes": {
+            "md5": "108f24a7a20c31e325b8f02c883d6d00"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/projects/com-service/src/service/servicemanager/server_type_info_i.c"
+          },
+          "hashes": {
+            "md5": "8d1cb580e1c742d967069779649ecc56"
+          }
+        }
+      ]
+    }
+  ]
+}
