@@ -1,0 +1,64 @@
+﻿  Processing .\server_type_info.idl
+  server_type_info.idl
+  Processing D:\Windows Kits\10\Include\10.0.19041.0\um\oaidl.idl
+  oaidl.idl
+  Processing D:\Windows Kits\10\Include\10.0.19041.0\um\objidl.idl
+  objidl.idl
+  Processing D:\Windows Kits\10\Include\10.0.19041.0\um\unknwn.idl
+  unknwn.idl
+  Processing D:\Windows Kits\10\Include\10.0.19041.0\shared\wtypes.idl
+  wtypes.idl
+  Processing D:\Windows Kits\10\Include\10.0.19041.0\shared\wtypesbase.idl
+  wtypesbase.idl
+  Processing D:\Windows Kits\10\Include\10.0.19041.0\shared\basetsd.h
+  basetsd.h
+  Processing D:\Windows Kits\10\Include\10.0.19041.0\shared\guiddef.h
+  guiddef.h
+  Processing D:\Windows Kits\10\Include\10.0.19041.0\um\ocidl.idl
+  ocidl.idl
+  Processing D:\Windows Kits\10\Include\10.0.19041.0\um\oleidl.idl
+  oleidl.idl
+  Processing D:\Windows Kits\10\Include\10.0.19041.0\um\servprov.idl
+  servprov.idl
+  Processing D:\Windows Kits\10\Include\10.0.19041.0\um\urlmon.idl
+  urlmon.idl
+  Processing D:\Windows Kits\10\Include\10.0.19041.0\um\msxml.idl
+  msxml.idl
+  Processing D:\Windows Kits\10\Include\10.0.19041.0\um\oaidl.acf
+  oaidl.acf
+  Processing D:\Windows Kits\10\Include\10.0.19041.0\um\ocidl.acf
+  ocidl.acf
+  locks.cpp
+  manager_class_factory.cpp
+  server.cpp
+  The contents of <filesystem> are available only with C++17 or later.
+  service_manager.cpp
+D:\Projects\com-service\src\Service\ServiceManager\service_manager.cpp(43,1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\Projects\com-service\src\Service\ServiceManager\service_manager.cpp(52,1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\Projects\com-service\src\Service\ServiceManager\service_manager.cpp(61,1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\Projects\com-service\src\Service\ServiceManager\service_manager.cpp(351,1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\Projects\com-service\src\Service\ServiceManager\service_manager.cpp(380,1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\Projects\com-service\src\Service\ServiceManager\service_manager.cpp(508,1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\Projects\com-service\src\Service\ServiceManager\service_manager.cpp(522,1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\Projects\com-service\src\Service\ServiceManager\service_manager.cpp(537,1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\Projects\com-service\src\Service\ServiceManager\service_manager.cpp(597,1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\Projects\com-service\src\Service\ServiceManager\service_manager.cpp(610,1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\Projects\com-service\src\Service\ServiceManager\service_manager.cpp(624,1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\Projects\com-service\src\Service\ServiceManager\service_manager.cpp(699,1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\Projects\com-service\src\Service\ServiceManager\service_manager.cpp(712,1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\Projects\com-service\src\Service\ServiceManager\service_manager.cpp(741,1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\Projects\com-service\src\Service\ServiceManager\service_manager.cpp(787,1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\Projects\com-service\src\Service\ServiceManager\service_manager.cpp(800,1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\Projects\com-service\src\Service\ServiceManager\service_manager.cpp(814,1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\Projects\com-service\src\Service\ServiceManager\service_manager.cpp(867,1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\Projects\com-service\src\Service\ServiceManager\service_manager.cpp(879,1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\Projects\com-service\src\Service\ServiceManager\service_manager.cpp(892,1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\Projects\com-service\src\Service\ServiceManager\service_manager.cpp(972,1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\Projects\com-service\src\Service\ServiceManager\service_manager.cpp(992,1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\Projects\com-service\src\Service\ServiceManager\service_manager.cpp(1005,1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\Projects\com-service\src\Service\ServiceManager\service_manager.cpp(1062,1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  Generating code
+  Previous IPDB and IOBJ mismatch, fall back to full compilation.
+  All 145 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  ServiceManager.vcxproj -> D:\Projects\com-service\src\Service\Release\ServiceManager.exe
