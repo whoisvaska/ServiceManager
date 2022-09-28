@@ -76,7 +76,6 @@ void ServiceClientGUI::settingsMenuRequested(const QModelIndex& index)
 
 void ServiceClientGUI::updateServices() 
 {
-
     this->servicesModel->removeRows(0, this->servicesModel->rowCount());
 
     int servicesCount = 0;

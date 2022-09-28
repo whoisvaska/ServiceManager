@@ -43,9 +43,6 @@
     <ClCompile Include="value_to_str.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="service_settings_wnd.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="general_settings_tab.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -65,9 +62,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="service_settings_wnd.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="general_settings_tab.h">
       <Filter>Header Files</Filter>
     </QtMoc>

@@ -1,15 +1,7 @@
-#if !defined ServiceManager_H_
-#define ServiceManager_H_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
-
-//#define DEBUG 
-//#undef DEBUG
 
 #include "../ServiceManager/server_type_info_h.h"
-#include "service_struct.h"
+//#include "service_struct.h"
 
 class ServiceManager :
 	public IManager,
@@ -47,5 +39,4 @@ private:
 	DWORD	m_refCount;
 };
 
-#endif // !defined(AFX_ServiceManager_H__86A1A88D_D36B_11D2_B8CF_0020781238D4__INCLUDED_)
 

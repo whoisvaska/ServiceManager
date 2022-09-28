@@ -96,7 +96,7 @@ library ServiceLib
 
     //<Guid("52DA7150-1BC7-4DA1-AD03-CB1147DF9FD9")>
     [object, uuid(52DA7150-1BC7-4DA1-AD03-CB1147DF9FD9),
-    oleautomation, helpstring("This lets you create a car object")]
+    oleautomation]
     interface ICreateManager : IUnknown
     {
     };

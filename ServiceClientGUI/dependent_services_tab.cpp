@@ -25,7 +25,6 @@ DependentServicesTab::DependentServicesTab(QWidget* parent, QMap<QString, QList<
 }
 
 
-
 DependentServicesTab::~DependentServicesTab()
 {
     if (this->dependedServicesTreeWidget != NULL) delete (this->dependedServicesTreeWidget);
@@ -44,8 +43,6 @@ void DependentServicesTab::expandDependent(const QModelIndex& index)
     }
 
     QString displayName = treeItem->text(0);
-
-    ServiceSettingsTab* sst = qobject_cast<ServiceSettingsTab*>(serviceSettingsTab);
 
     QList<QString> dependentServices = this->dependentServices[displayName];
 
@@ -77,8 +74,6 @@ void DependentServicesTab::expandDependOn(const QModelIndex& index)
     }
 
     QString displayName = treeItem->text(0);
-
-    ServiceSettingsTab* sst = qobject_cast<ServiceSettingsTab*>(serviceSettingsTab);
 
     QList<QString> dependOnServices;
 
@@ -133,7 +128,6 @@ void DependentServicesTab::updateInfo()
 
     for (auto v : dependOnServices)
     {
-
         QTreeWidgetItem* twi = new QTreeWidgetItem(dependOnServicesTreeWidget);
 
         twi->setText(0, v);

@@ -1,7 +1,7 @@
 //#include "stdafx.h"
 #include "service_manager.h"
 #include "../ServiceManager/server_type_info_i.c"
-#include "service_struct_i.c"
+//#include "service_struct_i.c"
 
 #include "locks.h"
 

@@ -1,9 +1,5 @@
-// This file contains the prototypes of 
-// the server locking functions.
-#ifndef _MYLOCKS
-#define _MYLOCKS
+#pragma once
 
 void Lock();
 void UnLock();
 
-#endif // _MYLOCKS

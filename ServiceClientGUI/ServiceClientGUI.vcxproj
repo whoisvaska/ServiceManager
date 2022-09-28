@@ -97,7 +97,6 @@
     <QtMoc Include="general_settings_tab.h" />
     <ClCompile Include="recovery_settings_tab.cpp" />
     <ClCompile Include="service_settings_tab.cpp" />
-    <ClCompile Include="service_settings_wnd.cpp" />
     <ClCompile Include="value_to_str.cpp" />
     <QtRcc Include="serviceclientgui.qrc" />
     <QtUic Include="serviceclientgui.ui" />
@@ -106,7 +105,6 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="service_settings_wnd.h" />
     <QtMoc Include="service_settings_tab.h" />
     <QtMoc Include="recovery_settings_tab.h" />
     <ClInclude Include="value_to_str.h" />

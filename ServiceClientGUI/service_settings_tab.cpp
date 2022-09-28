@@ -39,11 +39,14 @@ ServiceSettingsTab::ServiceSettingsTab(QString serviceName_, IManager* pIManager
 
     this->closeSettingsBtn = new QPushButton();
     this->closeSettingsBtn->setText("Close");
-    connect(this->closeSettingsBtn, SIGNAL(clicked()), this, SLOT(this->close()));
+    connect(this->closeSettingsBtn, &QPushButton::clicked, [this]()
+        {
+            this->close();
+        }
+    );
 
     QVBoxLayout* mainLayout = new QVBoxLayout;
     mainLayout->addWidget(tabWidget);
-
 
     mainLayout->addWidget(okSettingsBtn);
     mainLayout->addWidget(closeSettingsBtn);
@@ -54,7 +57,6 @@ ServiceSettingsTab::ServiceSettingsTab(QString serviceName_, IManager* pIManager
 
     this->applySettingsBtn->setDisabled(true);
 
-    //this->setFixedSize(640, 480);
 }
 
 
